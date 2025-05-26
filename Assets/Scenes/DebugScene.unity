@@ -701,12 +701,47 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1548162989360856272, guid: a1450121f5fafe24c9c6812f2900ade1, type: 3}
+      propertyPath: m_DefaultActionMap
+      value: Player
+      objectReference: {fileID: 0}
+    - target: {fileID: 1548162989360856272, guid: a1450121f5fafe24c9c6812f2900ade1, type: 3}
       propertyPath: m_DefaultControlScheme
       value: Controller
       objectReference: {fileID: 0}
     - target: {fileID: 1548162989360856272, guid: a1450121f5fafe24c9c6812f2900ade1, type: 3}
+      propertyPath: m_ActionEvents.Array.size
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 1548162989360856272, guid: a1450121f5fafe24c9c6812f2900ade1, type: 3}
       propertyPath: m_NeverAutoSwitchControlSchemes
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1548162989360856272, guid: a1450121f5fafe24c9c6812f2900ade1, type: 3}
+      propertyPath: m_ActionEvents.Array.data[3].m_ActionId
+      value: 772f2dd6-aff9-4fa1-a6e3-2c26fc17bded
+      objectReference: {fileID: 0}
+    - target: {fileID: 1548162989360856272, guid: a1450121f5fafe24c9c6812f2900ade1, type: 3}
+      propertyPath: m_ActionEvents.Array.data[4].m_ActionId
+      value: 6d68ceca-a63f-4cf2-ab39-b05147312f84
+      objectReference: {fileID: 0}
+    - target: {fileID: 1548162989360856272, guid: a1450121f5fafe24c9c6812f2900ade1, type: 3}
+      propertyPath: m_ActionEvents.Array.data[5].m_ActionId
+      value: 6d19fcf3-0572-458a-9e43-756b13f26d25
+      objectReference: {fileID: 0}
+    - target: {fileID: 1548162989360856272, guid: a1450121f5fafe24c9c6812f2900ade1, type: 3}
+      propertyPath: m_ActionEvents.Array.data[3].m_ActionName
+      value: Player1/Movement[/Keyboard/w,/Keyboard/s,/Keyboard/a,/Keyboard/d,/DualShock4GamepadHID/leftStick,/QANBA
+        USA, LLC Qanba Drone 2 Arcade Joystick/stick]
+      objectReference: {fileID: 0}
+    - target: {fileID: 1548162989360856272, guid: a1450121f5fafe24c9c6812f2900ade1, type: 3}
+      propertyPath: m_ActionEvents.Array.data[4].m_ActionName
+      value: Player1/Attack[/Keyboard/j,/DualShock4GamepadHID/buttonWest,/QANBA USA,
+        LLC Qanba Drone 2 Arcade Joystick/trigger]
+      objectReference: {fileID: 0}
+    - target: {fileID: 1548162989360856272, guid: a1450121f5fafe24c9c6812f2900ade1, type: 3}
+      propertyPath: m_ActionEvents.Array.data[5].m_ActionName
+      value: Player1/Parry[/Keyboard/k,/DualShock4GamepadHID/rightShoulder,/QANBA
+        USA, LLC Qanba Drone 2 Arcade Joystick/button6]
       objectReference: {fileID: 0}
     - target: {fileID: 3555388760170741894, guid: a1450121f5fafe24c9c6812f2900ade1, type: 3}
       propertyPath: m_Name
@@ -806,7 +841,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1548162989360856272, guid: a1450121f5fafe24c9c6812f2900ade1, type: 3}
       propertyPath: m_DefaultControlScheme
-      value: Keyboard
+      value: Controller
       objectReference: {fileID: 0}
     - target: {fileID: 1548162989360856272, guid: a1450121f5fafe24c9c6812f2900ade1, type: 3}
       propertyPath: m_NeverAutoSwitchControlSchemes

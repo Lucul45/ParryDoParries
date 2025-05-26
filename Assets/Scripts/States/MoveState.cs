@@ -27,6 +27,7 @@ public class MoveState : APlayerState
         }
         if (_stateManager.Attack)
         {
+            _stateManager.Attack = false;
             _stateManager.ChangeState(EPlayerState.ATTACK1);
         }
 

@@ -40,10 +40,10 @@ public class Attack1State : MeleeBaseState
                 {
                     _stateManager.ChangeState(EPlayerState.IDLE);
                 }
-                else if (_stateManager.MovementInput.x != 0f)
+                /*else if (_stateManager.MovementInput.x != 0f)
                 {
                     _stateManager.ChangeState(EPlayerState.MOVE);
-                }
+                }*/
             }
         }
     }

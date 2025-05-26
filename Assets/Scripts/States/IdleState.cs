@@ -6,12 +6,12 @@ public class IdleState : APlayerState
 {
     public override void Enter()
     {
-        
+        _stateManager.AttackPressed += Attack;
     }
 
     public override void Exit()
     {
-        
+        _stateManager.AttackPressed -= Attack;
     }
 
     public override void Init(PlayerStateMachineManager stateManager, Animator animator)
@@ -25,9 +25,10 @@ public class IdleState : APlayerState
         {
             _stateManager.ChangeState(EPlayerState.MOVE);
         }
-        if (_stateManager.Attack)
-        {
-            _stateManager.ChangeState(EPlayerState.ATTACK1);
-        }
+    }
+
+    private void Attack()
+    {
+        _stateManager.ChangeState(EPlayerState.ATTACK1);
     }
 }

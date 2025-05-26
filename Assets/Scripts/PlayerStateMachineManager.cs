@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -30,6 +31,18 @@ public class PlayerStateMachineManager : MonoBehaviour
     private Vector2 _movementInput = Vector2.zero;
     private bool _attack = false;
     private bool _hold = false;
+    private PlayerControls _controls;
+
+    private event Action _attackPressed = null;
+    public event Action AttackPressed
+    {
+        add 
+        {
+            _attackPressed -= value;
+            _attackPressed += value; 
+        }
+        remove { _attackPressed -= value; }
+    }
 
     public APlayerState CurrentState
     {
@@ -45,6 +58,7 @@ public class PlayerStateMachineManager : MonoBehaviour
     public bool Attack
     {
         get { return _attack; }
+        set { _attack = value; }
     }
     public float FixedTime
     {
@@ -55,6 +69,9 @@ public class PlayerStateMachineManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        _controls = new PlayerControls();
+        _controls.Player.Attack.performed += OnAttackInput;
+        //_controls.Player.Attack.canceled += OnAttackReleased;
         _states = new Dictionary<EPlayerState, APlayerState>();
         _states.Add(EPlayerState.IDLE, new IdleState());
         _states.Add(EPlayerState.MOVE, new MoveState());
@@ -74,22 +91,9 @@ public class PlayerStateMachineManager : MonoBehaviour
     void Update()
     {
         FixedTime += Time.deltaTime;
-        if (_hold)
-        {
-            _pressTime += Time.deltaTime;
-        }
         CurrentState.Update();
         _animator.SetFloat("Speed", _rb.velocity.x);
-        if (_hold && _pressTime < 1f)
-        {
-            _attack = true;
-        }
-        else
-        {
-            _attack = false;
-            _pressTime = 0;
-        }
-        Debug.Log(Attack);
+        //Debug.Log(Attack);
     }
 
     public void ChangeState(EPlayerState nextState)
@@ -107,11 +111,28 @@ public class PlayerStateMachineManager : MonoBehaviour
 
     public void GetAttackInput(InputAction.CallbackContext context)
     {
-        _attack = context.action.triggered;
+        //_attack = context.action.performed;
+        if (_attackPressed != null)
+        {
+            _attackPressed();
+        }
+        
     }
 
     public void Move(Vector2 dir)
     {
         _rb.velocity = new Vector2(dir.x * _playerSpeed, 0);
     }
+
+    public void OnAttackInput(InputAction.CallbackContext context)
+    {
+        _attack = true;
+    }
+
+    public void OnAttackReleased(InputAction.CallbackContext context)
+    {
+        _attack = false;
+    }
+
+    
 }
