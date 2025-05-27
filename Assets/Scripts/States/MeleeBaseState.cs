@@ -24,13 +24,11 @@ public class MeleeBaseState : APlayerState
                 break;
         }
         _stateManager.AttackPressed += Attack;
-        _stateManager.CanAttack = true;
         //set hitbox attack
     }
 
     public override void Exit()
     {
-        _stateManager.CanAttack = false;
         _stateManager.AttackPressed -= Attack;
     }
 
@@ -44,15 +42,16 @@ public class MeleeBaseState : APlayerState
     public override void Update()
     {
         _stateManager.Move(Vector2.zero);
-        Debug.Log(_stateManager.Attack1CanCombo.Contains<Sprite>(_spriteRenderer.sprite) || _stateManager.Attack2CanCombo.Contains<Sprite>(_spriteRenderer.sprite));
-        Debug.Log(_attackIndex);
+        //Debug.Log(_stateManager.Attack1CanCombo.Contains<Sprite>(_spriteRenderer.sprite) || _stateManager.Attack2CanCombo.Contains<Sprite>(_spriteRenderer.sprite));
+        //Debug.Log(_attackIndex);
         if (_stateManager.Attack1CanCombo.Contains<Sprite>(_spriteRenderer.sprite) || _stateManager.Attack2CanCombo.Contains<Sprite>(_spriteRenderer.sprite))
         {
+            _stateManager.CanAttack = true;
             _shouldCombo = true;
         }
         if (_animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1f)
         {
-            Debug.Log("Reset");
+            //Debug.Log("Reset");
             ResetCombo();
             _stateManager.ChangeState(EPlayerState.IDLE);
         }
@@ -72,6 +71,7 @@ public class MeleeBaseState : APlayerState
         if (_shouldCombo)
         {
             _attackIndex++;
+            _stateManager.CanAttack = false;
             _stateManager.ChangeState(EPlayerState.MELEE);
         }
     }

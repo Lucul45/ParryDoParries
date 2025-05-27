@@ -8,10 +8,9 @@ public enum EPlayerState
 {
     IDLE,
     MOVE,
+    MELEEENTRY,
     MELEE,
-    ATTACK1,
-    ATTACK2,
-    ATTACK3,
+    PARRY,
     NONE
 }
 
@@ -33,6 +32,7 @@ public class PlayerStateMachineManager : MonoBehaviour
     private Vector2 _movementInput = Vector2.zero;
     private bool _attack = false;
     private bool _canAttack = true;
+    private bool _canParry = true;
     private PlayerControls _controls;
 
     private event Action _attackPressed = null;
@@ -44,6 +44,17 @@ public class PlayerStateMachineManager : MonoBehaviour
             _attackPressed += value; 
         }
         remove { _attackPressed -= value; }
+    }
+
+    private event Action _parryPressed = null;
+    public event Action ParryPressed
+    {
+        add
+        {
+            _parryPressed -= value;
+            _parryPressed += value;
+        }
+        remove { _parryPressed -= value; }
     }
 
     public APlayerState CurrentState
@@ -81,6 +92,11 @@ public class PlayerStateMachineManager : MonoBehaviour
         get { return _canAttack; }
         set { _canAttack = value; }
     }
+    public bool CanParry
+    {
+        get { return _canParry; }
+        set { _canParry = value; }
+    }
     public float FixedTime
     {
         get { return _fixedTime; }
@@ -93,10 +109,9 @@ public class PlayerStateMachineManager : MonoBehaviour
         _states = new Dictionary<EPlayerState, APlayerState>();
         _states.Add(EPlayerState.IDLE, new IdleState());
         _states.Add(EPlayerState.MOVE, new MoveState());
+        _states.Add(EPlayerState.MELEEENTRY, new MeleeEntryState());
         _states.Add(EPlayerState.MELEE, new MeleeBaseState());
-        _states.Add(EPlayerState.ATTACK1, new Attack1State());
-        _states.Add(EPlayerState.ATTACK2, new Attack2State());
-        _states.Add(EPlayerState.ATTACK3, new Attack3State());
+        _states.Add(EPlayerState.PARRY, new ParryState());
         foreach (KeyValuePair<EPlayerState, APlayerState> state in _states)
         {
             state.Value.Init(this, _animator, _spriteRenderer);
@@ -115,7 +130,7 @@ public class PlayerStateMachineManager : MonoBehaviour
 
     public void ChangeState(EPlayerState nextState)
     {
-        Debug.Log("Transition from " + CurrentState + " To " + nextState);
+        //Debug.Log("Transition from " + CurrentState + " To " + nextState);
         CurrentState.Exit();
         _currentState = nextState;
         CurrentState.Enter();
@@ -130,13 +145,23 @@ public class PlayerStateMachineManager : MonoBehaviour
     {
         if (_attackPressed != null && CanAttack)
         {
+            Debug.Log("ATK");
             _attackPressed();
         }
         
     }
 
+    public void GetParryInput(InputAction.CallbackContext context)
+    {
+        if (_parryPressed != null && CanParry)
+        {
+            Debug.Log("PARRY");
+            _parryPressed();
+        }
+    }
+
     public void Move(Vector2 dir)
     {
         _rb.velocity = new Vector2(dir.x * _playerSpeed, 0);
-    }    
+    }
 }

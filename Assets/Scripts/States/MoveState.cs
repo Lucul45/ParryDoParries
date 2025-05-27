@@ -7,13 +7,13 @@ public class MoveState : APlayerState
     public override void Enter()
     {
         _stateManager.AttackPressed += Attack;
-        _stateManager.CanAttack = true;
+        _stateManager.ParryPressed += Parry;
     }
 
     public override void Exit()
     {
-        _stateManager.CanAttack = false;
         _stateManager.AttackPressed -= Attack;
+        _stateManager.ParryPressed -= Parry;
     }
 
     public override void Init(PlayerStateMachineManager stateManager, Animator animator, SpriteRenderer spriteRenderer)
@@ -35,6 +35,13 @@ public class MoveState : APlayerState
 
     private void Attack()
     {
+        _stateManager.CanAttack = false;
         _stateManager.ChangeState(EPlayerState.MELEE);
+    }
+
+    private void Parry()
+    {
+        _stateManager.CanParry = false;
+        _stateManager.ChangeState(EPlayerState.PARRY);
     }
 }
