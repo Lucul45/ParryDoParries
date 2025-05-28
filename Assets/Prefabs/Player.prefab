@@ -108,6 +108,22 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: 28492de0-b4f5-4d0e-971a-1b33d9664fc0
     m_ActionName: Player/Parry[/Keyboard/k,/DualShock4GamepadHID/rightShoulder]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1902538222313046845}
+        m_TargetAssemblyTypeName: PlayerStateMachineManager, Assembly-CSharp
+        m_MethodName: GetDashInput
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 1b40b4fe-a85e-4347-a532-b3549622adc7
+    m_ActionName: Player/Dash[/Keyboard/l,/DualShock4GamepadHID/rightTrigger]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: Keyboard
   m_DefaultActionMap: Player

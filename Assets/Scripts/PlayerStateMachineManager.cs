@@ -11,6 +11,7 @@ public enum EPlayerState
     MELEEENTRY,
     MELEE,
     PARRY,
+    DASH,
     NONE
 }
 
@@ -55,6 +56,17 @@ public class PlayerStateMachineManager : MonoBehaviour
             _parryPressed += value;
         }
         remove { _parryPressed -= value; }
+    }
+
+    private event Action _dashPressed = null;
+    public event Action DashPressed
+    {
+        add
+        {
+            _dashPressed -= value;
+            _dashPressed += value;
+        }
+        remove { _dashPressed -= value; }
     }
 
     public APlayerState CurrentState
@@ -112,9 +124,10 @@ public class PlayerStateMachineManager : MonoBehaviour
         _states.Add(EPlayerState.MELEEENTRY, new MeleeEntryState());
         _states.Add(EPlayerState.MELEE, new MeleeBaseState());
         _states.Add(EPlayerState.PARRY, new ParryState());
+        _states.Add(EPlayerState.DASH, new DashState());
         foreach (KeyValuePair<EPlayerState, APlayerState> state in _states)
         {
-            state.Value.Init(this, _animator, _spriteRenderer);
+            state.Value.Init(this, _animator, _spriteRenderer, _rb);
         }
         _currentState = EPlayerState.IDLE;
         CurrentState.Enter();
@@ -126,12 +139,11 @@ public class PlayerStateMachineManager : MonoBehaviour
         FixedTime += Time.deltaTime;
         CurrentState.Update();
         _animator.SetFloat("Speed", _rb.velocity.x);
-        //Debug.Log(CanAttack);
     }
 
     public void ChangeState(EPlayerState nextState)
     {
-        //Debug.Log("Transition from " + CurrentState + " To " + nextState);
+        Debug.Log("Transition from " + CurrentState + " To " + nextState);
         CurrentState.Exit();
         _currentState = nextState;
         CurrentState.Enter();
@@ -161,8 +173,23 @@ public class PlayerStateMachineManager : MonoBehaviour
         }
     }
 
+    public void GetDashInput(InputAction.CallbackContext context)
+    {
+        if (_dashPressed != null && context.started)
+        {
+            Debug.Log("DASH");
+            _dashPressed();
+        }
+    }
+
     public void Move(Vector2 dir)
     {
         _rb.velocity = new Vector2(dir.x * _playerSpeed, 0);
+    }
+
+    public Vector2 RecordInput()
+    {
+        Vector2 recorded = _rb.velocity;    
+        return recorded;
     }
 }

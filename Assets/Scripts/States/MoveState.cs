@@ -8,19 +8,22 @@ public class MoveState : APlayerState
     {
         _stateManager.AttackPressed += Attack;
         _stateManager.ParryPressed += Parry;
+        _stateManager.DashPressed += Dash;
     }
 
     public override void Exit()
     {
         _stateManager.AttackPressed -= Attack;
         _stateManager.ParryPressed -= Parry;
+        _stateManager.DashPressed -= Dash;
     }
 
-    public override void Init(PlayerStateMachineManager stateManager, Animator animator, SpriteRenderer spriteRenderer)
+    public override void Init(PlayerStateMachineManager stateManager, Animator animator, SpriteRenderer spriteRenderer, Rigidbody2D rb)
     {
         _stateManager = stateManager;
         _animator = animator;
         _spriteRenderer = spriteRenderer;
+        _rb = rb;
     }
 
     public override void Update()
@@ -41,5 +44,10 @@ public class MoveState : APlayerState
     private void Parry()
     {
         _stateManager.ChangeState(EPlayerState.PARRY);
+    }
+
+    private void Dash()
+    {
+        _stateManager.ChangeState(EPlayerState.DASH);
     }
 }

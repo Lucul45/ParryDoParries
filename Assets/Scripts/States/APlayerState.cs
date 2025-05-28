@@ -7,8 +7,9 @@ public abstract class APlayerState
     protected PlayerStateMachineManager _stateManager;
     protected Animator _animator;
     protected SpriteRenderer _spriteRenderer;
+    protected Rigidbody2D _rb;
 
-    public abstract void Init(PlayerStateMachineManager stateManager, Animator animator, SpriteRenderer spriteRenderer);
+    public abstract void Init(PlayerStateMachineManager stateManager, Animator animator, SpriteRenderer spriteRenderer, Rigidbody2D rb);
 
     public abstract void Enter();
 
