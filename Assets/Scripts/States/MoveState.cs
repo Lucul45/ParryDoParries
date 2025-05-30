@@ -38,7 +38,10 @@ public class MoveState : APlayerState
 
     private void Attack()
     {
-        _stateManager.ChangeState(EPlayerState.MELEE);
+        if (_stateManager.CanAttack)
+        {
+            _stateManager.ChangeState(EPlayerState.MELEE);
+        }
     }
 
     private void Parry()

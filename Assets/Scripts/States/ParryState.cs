@@ -7,11 +7,13 @@ public class ParryState : APlayerState
     public override void Enter()
     {
         _animator.SetBool("IsParrying", true);
+        _stateManager.IsParrying = true;
     }
 
     public override void Exit()
     {
         _animator.SetBool("IsParrying", false);
+        _stateManager.IsParrying = false;
     }
 
     public override void Init(PlayerStateMachineManager stateManager, Animator animator, SpriteRenderer spriteRenderer, Rigidbody2D rb)

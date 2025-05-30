@@ -10,8 +10,10 @@ public enum EPlayerState
     MOVE,
     MELEEENTRY,
     MELEE,
+    THROW,
     PARRY,
     DASH,
+    HURT,
     NONE
 }
 
@@ -33,7 +35,17 @@ public class PlayerStateMachineManager : MonoBehaviour
     private Vector2 _movementInput = Vector2.zero;
     private bool _attack = false;
     private bool _canAttack = true;
+
     private bool _canParry = true;
+    private bool _isParrying = false;
+
+    private bool _isHurt = false;
+
+    [SerializeField] private float _dashForce = 10f;
+    [SerializeField] private float _dashCooldown = 1f;
+    [SerializeField] private float _dashTime = 0.2f;
+    private bool _canDash = true;
+
     private PlayerControls _controls;
 
     private event Action _attackPressed = null;
@@ -109,6 +121,23 @@ public class PlayerStateMachineManager : MonoBehaviour
         get { return _canParry; }
         set { _canParry = value; }
     }
+
+    public bool IsParrying
+    {
+        get { return _isParrying; }
+        set { _isParrying = value; }
+    }
+
+    public bool IsHurt
+    {
+        get { return _isHurt; }
+        set { _isHurt = value; }
+    }
+
+    public bool CanDash
+    {
+        get { return _canDash; }
+    }
     public float FixedTime
     {
         get { return _fixedTime; }
@@ -125,6 +154,7 @@ public class PlayerStateMachineManager : MonoBehaviour
         _states.Add(EPlayerState.MELEE, new MeleeBaseState());
         _states.Add(EPlayerState.PARRY, new ParryState());
         _states.Add(EPlayerState.DASH, new DashState());
+        _states.Add(EPlayerState.HURT, new HurtState());
         foreach (KeyValuePair<EPlayerState, APlayerState> state in _states)
         {
             state.Value.Init(this, _animator, _spriteRenderer, _rb);
@@ -158,7 +188,6 @@ public class PlayerStateMachineManager : MonoBehaviour
     {
         if (_attackPressed != null && context.started)
         {
-            Debug.Log("ATK");
             _attackPressed();
         }
         
@@ -168,7 +197,6 @@ public class PlayerStateMachineManager : MonoBehaviour
     {
         if (_parryPressed != null && context.started)
         {
-            Debug.Log("PARRY");
             _parryPressed();
         }
     }
@@ -177,7 +205,6 @@ public class PlayerStateMachineManager : MonoBehaviour
     {
         if (_dashPressed != null && context.started)
         {
-            Debug.Log("DASH");
             _dashPressed();
         }
     }
@@ -193,8 +220,28 @@ public class PlayerStateMachineManager : MonoBehaviour
         return recorded;
     }
 
-    public void StartDash()
+    public IEnumerator Dash()
     {
-        //StartCoroutine(_states[EPlayerState.DASH]);
+        _canDash = false;
+        _rb.velocity = new Vector2(RecordInput().normalized.x * _dashForce, 0);
+        yield return new WaitForSeconds(_dashTime);
+        yield return new WaitForSeconds(_dashCooldown);
+        _canDash = true;
+    }
+
+    public IEnumerator AttackCooldown(float cooldown)
+    {
+        _animator.speed = 0f;
+        CanAttack = false;
+        yield return new WaitForSeconds(cooldown);
+        _animator.speed = 1f;
+        CanAttack = true;
+    }
+
+    public IEnumerator HurtTime(float time)
+    {
+        IsHurt = true;
+        yield return new WaitForSeconds(time);
+        IsHurt = false;
     }
 }

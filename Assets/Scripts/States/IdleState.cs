@@ -9,6 +9,7 @@ public class IdleState : APlayerState
         _stateManager.AttackPressed += Attack;
         _stateManager.ParryPressed += Parry;
         _stateManager.DashPressed += Dash;
+        _stateManager.Move(Vector2.zero);
     }
 
     public override void Exit()
@@ -36,7 +37,10 @@ public class IdleState : APlayerState
 
     private void Attack()
     {
-        _stateManager.ChangeState(EPlayerState.MELEE);
+        if(_stateManager.CanAttack)
+        {
+            _stateManager.ChangeState(EPlayerState.MELEE);
+        }
     }
 
     private void Parry()

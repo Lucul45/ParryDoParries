@@ -10,11 +10,10 @@ public class MeleeBaseState : APlayerState
 
     public override void Enter()
     {
-        /*switch (_attackIndex)
+        switch (_attackIndex)
         {
             case 1:
                 _animator.SetBool("IsAttacking1", true);
-                Debug.Log("Play Attack 1");
                 break;
             case 2:
                 _animator.SetBool("IsAttacking2", true);
@@ -22,22 +21,8 @@ public class MeleeBaseState : APlayerState
             case 3:
                 _animator.SetBool("IsAttacking3", true);
                 break;
-        }*/
-        if (_attackIndex == 1)
-        {
-            _animator.SetBool("IsAttacking1", true);
-            Debug.Log("Play Attack 1");
-        }
-        if (_attackIndex == 2)
-        {
-            _animator.SetBool("IsAttacking2", true);
-        }
-        if (_attackIndex == 3)
-        {
-            _animator.SetBool("IsAttacking3", true);
         }
         _stateManager.AttackPressed += Attack;
-        //set hitbox attack
     }
 
     public override void Exit()
@@ -56,8 +41,6 @@ public class MeleeBaseState : APlayerState
     public override void Update()
     {
         _stateManager.Move(Vector2.zero);
-        //Debug.Log(_stateManager.Attack1CanCombo.Contains<Sprite>(_spriteRenderer.sprite) || _stateManager.Attack2CanCombo.Contains<Sprite>(_spriteRenderer.sprite));
-        //Debug.Log(_attackIndex);
         if (_stateManager.Attack1CanCombo.Contains<Sprite>(_spriteRenderer.sprite) || _stateManager.Attack2CanCombo.Contains<Sprite>(_spriteRenderer.sprite))
         {
             _shouldCombo = true;
@@ -66,9 +49,20 @@ public class MeleeBaseState : APlayerState
         {
             if (_animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1f && !_animator.IsInTransition(0))
             {
-                Debug.Log("Reset");
+                float cooldown = 0f;
+                switch (_attackIndex)
+                {
+                    case 1:
+                        cooldown = 1f;
+                        break;
+                    case 2:
+                        cooldown = 2f;
+                        break;
+                    case 3:
+                        cooldown = 3f;
+                        break;
+                }
                 ResetCombo();
-
                 _stateManager.ChangeState(EPlayerState.IDLE);
             }
             

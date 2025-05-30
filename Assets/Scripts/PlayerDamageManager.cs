@@ -4,7 +4,10 @@ using UnityEngine;
 
 public class PlayerDamageManager : MonoBehaviour
 {
+    private PlayerStateMachineManager _stateMachineManager;
     [SerializeField] private HealthBar _healthBar;
+    [SerializeField] private Collider2D _attackHitbox;
+    [SerializeField] private List<Collider2D> _hurtboxes;
 
     private int _maxHealth = 100;
     private int _currentHealth = 100;
@@ -25,7 +28,7 @@ public class PlayerDamageManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        _stateMachineManager = GetComponent<PlayerStateMachineManager>();
     }
 
     // Update is called once per frame
@@ -33,12 +36,34 @@ public class PlayerDamageManager : MonoBehaviour
     {
         if (CurrentHealth == 0)
         {
-
+            Debug.Log("DEAD " + name);
         }
     }
 
     public void TakeDamage(int damage)
     {
         CurrentHealth -= damage;
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (tag == "Player1" && collision.gameObject.tag == "AttackP2")
+        {
+            if (!_stateMachineManager.IsParrying)
+            {
+                _stateMachineManager.ChangeState(EPlayerState.HURT);
+                TakeDamage(10);
+                Debug.Log("HIT");
+            }
+        }
+        if (tag == "Player2" && collision.gameObject.tag == "AttackP1")
+        {
+            if (!_stateMachineManager.IsParrying)
+            {
+                _stateMachineManager.ChangeState(EPlayerState.HURT);
+                TakeDamage(10);
+                Debug.Log("HIT");
+            }
+        }
     }
 }

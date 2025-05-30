@@ -4,20 +4,27 @@ using UnityEngine;
 
 public class DashState : APlayerState
 {
-    private float _dashForce = 10f;
-    public float _dashCooldown = 1f;
-    private float _dashTime = 0.2f;
-    private bool _canDash = true;
     private Vector2 _recordedInput = Vector2.zero;
     public override void Enter()
     {
+        _stateManager.AttackPressed += Attack;
+        _stateManager.ParryPressed += Parry;
         _recordedInput = _stateManager.RecordInput();
-        _animator.SetBool("IsDashing", true);
+        if (_stateManager.CanDash)
+        {
+            _animator.SetBool("IsDashing", true);
+        }
+        else
+        {
+            _stateManager.ChangeState(EPlayerState.IDLE);
+        }
     }
 
     public override void Exit()
     {
         _animator.SetBool("IsDashing", false);
+        _stateManager.AttackPressed -= Attack;
+        _stateManager.ParryPressed -= Parry;
     }
 
     public override void Init(PlayerStateMachineManager stateManager, Animator animator, SpriteRenderer spriteRenderer, Rigidbody2D rb)
@@ -36,19 +43,26 @@ public class DashState : APlayerState
             {
                 _stateManager.ChangeState(EPlayerState.IDLE);
             }
-            else if (_canDash)
+            else if (_stateManager.CanDash)
             {
-                
+                _stateManager.StartCoroutine(_stateManager.Dash());
             }
         }
     }
 
-    public IEnumerator Dash()
+    private void Attack()
     {
-        _canDash = false;
-        _rb.velocity = new Vector2(_recordedInput.normalized.x * _dashForce, 0);
-        yield return new WaitForSeconds(_dashTime);
-        yield return new WaitForSeconds(_dashCooldown);
-        _canDash = true;
+        if (_stateManager.CanDash && _stateManager.CanAttack)
+        {
+            _stateManager.ChangeState(EPlayerState.MELEE);
+        }
+    }
+
+    private void Parry()
+    {
+        if (_stateManager.CanDash)
+        {
+            _stateManager.ChangeState(EPlayerState.PARRY);
+        }
     }
 }
