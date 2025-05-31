@@ -16,6 +16,7 @@ MonoBehaviour:
   _animationName: Attack1
   _animatorCondition: IsAttacking1
   _attackCooldown: 1
+  _hurtTime: 1
   _canComboFrames:
   - {fileID: 21300000, guid: 19c26ce930bc5504f8dc1aff6b8bed1c, type: 3}
   - {fileID: 21300000, guid: 56a72869fa2a92d43a0d68181ac59ea9, type: 3}

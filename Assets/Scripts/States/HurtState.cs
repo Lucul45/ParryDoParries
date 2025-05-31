@@ -4,10 +4,13 @@ using UnityEngine;
 
 public class HurtState : APlayerState
 {
+    private float _fixedTime = 0;
     public override void Enter()
     {
+        _stateManager.Knockback(10, 0.5f);
         _animator.SetBool("IsHurt", true);
-        _stateManager.StartCoroutine(_stateManager.HurtTime(1));
+        _stateManager.IsHurt = true;
+        _fixedTime = 0;
     }
 
     public override void Exit()
@@ -25,6 +28,11 @@ public class HurtState : APlayerState
 
     public override void Update()
     {
+        _fixedTime += Time.deltaTime;
+        if (_fixedTime >= _stateManager.OtherPlayer.GetComponent<PlayerStateMachineManager>().CurrentAttack.HurtTime)
+        {
+            _stateManager.IsHurt = false;
+        }
         if (!_stateManager.IsHurt)
         {
             _stateManager.ChangeState(EPlayerState.IDLE);

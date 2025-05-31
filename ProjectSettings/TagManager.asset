@@ -8,6 +8,10 @@ TagManager:
   - Player2
   - AttackP1
   - AttackP2
+  - Attack1
+  - Attack2
+  - Attack3
+  - Attack
   layers:
   - Default
   - TransparentFX

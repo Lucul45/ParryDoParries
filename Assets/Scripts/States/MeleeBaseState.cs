@@ -7,23 +7,23 @@ public class MeleeBaseState : APlayerState
 {
     private bool _shouldCombo = false;
     private int _attackIndex = 1;
-    private AttackData _attackData;
     public override void Enter()
     {
         foreach (AttackData a in _stateManager.AttacksData)
         {
             if (a.AttackID == _attackIndex)
             {
-                _attackData = a;
+                _stateManager.CurrentAttack = a;
             }
         }
-        Debug.Log(_attackData.ToString());
-        _animator.SetBool(_attackData.AnimatorCondition, true);
+        _stateManager.Hitbox.tag = _stateManager.CurrentAttack.AnimationName;
+        _animator.SetBool(_stateManager.CurrentAttack.AnimatorCondition, true);
         _stateManager.AttackPressed += Attack;
     }
 
     public override void Exit()
     {
+        _stateManager.Hitbox.tag = "Attack";
         _stateManager.AttackPressed -= Attack;
     }
 
@@ -38,11 +38,11 @@ public class MeleeBaseState : APlayerState
     public override void Update()
     {
         _stateManager.Move(Vector2.zero);
-        if (_attackData.CanComboFrames.Contains<Sprite>(_spriteRenderer.sprite))
+        if (_stateManager.CurrentAttack.CanComboFrames.Contains<Sprite>(_spriteRenderer.sprite))
         {
             _shouldCombo = true;
         }
-        if (_animator.GetBool(_attackData.AnimatorCondition) && _animator.GetCurrentAnimatorStateInfo(0).IsName(_attackData.AnimationName))
+        if (_animator.GetBool(_stateManager.CurrentAttack.AnimatorCondition) && _animator.GetCurrentAnimatorStateInfo(0).IsName(_stateManager.CurrentAttack.AnimationName))
         {
             if (_animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1f && !_animator.IsInTransition(0))
             {

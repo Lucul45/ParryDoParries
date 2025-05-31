@@ -27,12 +27,15 @@ public class PlayerStateMachineManager : MonoBehaviour
     [SerializeField] private Animator _animator;
     [SerializeField] private SpriteRenderer _spriteRenderer;
     [SerializeField] private AttackData[] _attacksData;
+    [SerializeField] private GameObject _hitbox;
+    private GameObject _otherPlayer;
+
     private float _fixedTime = 0f;
 
     [SerializeField] private float _playerSpeed = 10f;
 
     private Vector2 _movementInput = Vector2.zero;
-    private bool _attack = false;
+    private AttackData _currentAttack = null;
     private bool _canAttack = true;
 
     private bool _canParry = true;
@@ -94,14 +97,23 @@ public class PlayerStateMachineManager : MonoBehaviour
             return _attacksData;
         }
     }
+    public GameObject Hitbox
+    {
+        get { return _hitbox; }
+    }
+    public GameObject OtherPlayer
+    {
+        get { return _otherPlayer; }
+        set { _otherPlayer = value; }
+    }
     public Vector2 MovementInput
     {
         get { return _movementInput; }
     }
-    public bool Attack
+    public AttackData CurrentAttack
     {
-        get { return _attack; }
-        set { _attack = value; }
+        get { return _currentAttack; }
+        set { _currentAttack = value; }
     }
     public bool CanAttack
     {
@@ -215,7 +227,14 @@ public class PlayerStateMachineManager : MonoBehaviour
     public IEnumerator Dash()
     {
         _canDash = false;
-        _rb.velocity = new Vector2(RecordInput().normalized.x * _dashForce, 0);
+        if (RecordInput().normalized.x == 0)
+        {
+            _rb.velocity = transform.right * _dashForce;
+        }
+        else
+        {
+            _rb.velocity = new Vector2(RecordInput().normalized.x * _dashForce, 0);
+        }
         yield return new WaitForSeconds(_dashTime);
         yield return new WaitForSeconds(_dashCooldown);
         _canDash = true;
@@ -235,5 +254,15 @@ public class PlayerStateMachineManager : MonoBehaviour
         IsHurt = true;
         yield return new WaitForSeconds(time);
         IsHurt = false;
+    }
+
+    public void Knockback(float force, float duration)
+    {
+        float time = 0;
+        while (time < duration)
+        {
+            time += Time.deltaTime;
+            _rb.velocity = -transform.right * force;
+        }
     }
 }

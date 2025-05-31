@@ -45,23 +45,39 @@ public class PlayerDamageManager : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (tag == "Player1" && collision.gameObject.tag == "AttackP2")
+        _stateMachineManager.OtherPlayer = collision.GetComponentInParent<PlayerStateMachineManager>().gameObject;
+        if (tag == "Player1" && collision.transform.parent.gameObject.tag == "Player2")
         {
             if (!_stateMachineManager.IsParrying)
             {
-                _stateMachineManager.ChangeState(EPlayerState.HURT);
-                TakeDamage(10);
-                Debug.Log("HIT");
+                if (collision.GetComponentInParent<PlayerStateMachineManager>().CurrentAttack != null)
+                {
+                    _stateMachineManager.ChangeState(EPlayerState.HURT);
+                    TakeDamage(10);
+                    Debug.Log("HIT " + name);
+                }
+                    
             }
         }
-        if (tag == "Player2" && collision.gameObject.tag == "AttackP1")
+        if (tag == "Player2" && collision.transform.parent.gameObject.tag == "Player1")
         {
             if (!_stateMachineManager.IsParrying)
             {
-                _stateMachineManager.ChangeState(EPlayerState.HURT);
-                TakeDamage(10);
-                Debug.Log("HIT");
+                if (collision.GetComponentInParent<PlayerStateMachineManager>().CurrentAttack != null)
+                {
+                    _stateMachineManager.ChangeState(EPlayerState.HURT);
+                    TakeDamage(10);
+                    Debug.Log("HIT " + name);
+                }
+                else
+                {
+                    Debug.Log("current Attack error");
+                }
             }
+        }
+        else
+        {
+            Debug.Log("tag error");
         }
     }
 }
