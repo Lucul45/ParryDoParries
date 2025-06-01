@@ -7,7 +7,7 @@ public class HurtState : APlayerState
     private float _fixedTime = 0;
     public override void Enter()
     {
-        _stateManager.Knockback(10, 0.5f);
+        _stateManager.Knockback(_stateManager.OtherPlayer.GetComponent<PlayerStateMachineManager>().CurrentAttack.KnockbackForce, 0.5f);
         _animator.SetBool("IsHurt", true);
         _stateManager.IsHurt = true;
         _fixedTime = 0;
