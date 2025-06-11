@@ -25,6 +25,7 @@ public class DeadState : APlayerState
 
     public override void Update()
     {
+        _stateManager.Move(Vector2.zero);
         if (_animator.GetBool("IsDead") && _animator.GetCurrentAnimatorStateInfo(0).IsName("Dead"))
         {
             if (_animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1f && !_animator.IsInTransition(0))

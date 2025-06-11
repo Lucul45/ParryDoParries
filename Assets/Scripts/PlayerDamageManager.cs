@@ -28,6 +28,10 @@ public class PlayerDamageManager : MonoBehaviour
             _healthBar.SetHealthValue(_currentHealth);
         }
     }
+    public bool FreezeEnabled
+    {
+        get { return _freezeEnabled; }
+    }
     // Start is called before the first frame update
     void Start()
     {

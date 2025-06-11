@@ -40,6 +40,7 @@ public class PlayerStateMachineManager : MonoBehaviour
     private float _fixedTime = 0f;
 
     [SerializeField] private float _playerSpeed = 10f;
+    [SerializeField] private float _clankForce = 10f;
 
     private Vector2 _movementInput = Vector2.zero;
     private AttackData _currentAttack = null;
@@ -49,7 +50,7 @@ public class PlayerStateMachineManager : MonoBehaviour
     private bool _isParrying = false;
     private bool _perfectParry = false;
 
-    private bool _isHurt = false;
+    private bool _isStunned = false;
 
     [SerializeField] private float _dashForce = 10f;
     [SerializeField] private float _dashCooldown = 1f;
@@ -157,10 +158,9 @@ public class PlayerStateMachineManager : MonoBehaviour
         get { return _perfectParry; }
         set { _perfectParry = value; }
     }
-    public bool IsHurt
+    public bool IsStunned
     {
-        get { return _isHurt; }
-        set { _isHurt = value; }
+        get { return _isStunned; }
     }
     public float DashTime
     {
@@ -288,11 +288,15 @@ public class PlayerStateMachineManager : MonoBehaviour
         CanAttack = true;
     }
 
-    public IEnumerator HurtTime(float time)
+    public IEnumerator HitStun(float time)
     {
-        IsHurt = true;
+        _isStunned = true;
+        _animator.speed = 0f;
+
         yield return new WaitForSeconds(time);
-        IsHurt = false;
+
+        _animator.speed = 1f;
+        _isStunned = false;
     }
 
     public void Knockback(float force, float duration)
@@ -314,8 +318,9 @@ public class PlayerStateMachineManager : MonoBehaviour
         }
     }
 
-    public void Test()
+    public void Clank()
     {
-        Debug.Log("TEST");
+        ChangeState(EPlayerState.IDLE);
+        _rb.AddForce(-transform.forward * _clankForce);
     }
 }

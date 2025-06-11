@@ -29,6 +29,10 @@ public class MoveState : APlayerState
 
     public override void Update()
     {
+        if (_stateManager.PlayerDamageManager.CurrentHealth <= 0)
+        {
+            _stateManager.ChangeState(EPlayerState.DEAD);
+        }
         if (_stateManager.MovementInput.x == 0)
         {
             _stateManager.ChangeState(EPlayerState.IDLE);

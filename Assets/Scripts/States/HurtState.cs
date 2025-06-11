@@ -9,7 +9,6 @@ public class HurtState : APlayerState
     {
         _stateManager.Knockback(_stateManager.OtherPlayer.GetComponent<PlayerStateMachineManager>().CurrentAttack.KnockbackForce, 0.5f);
         _animator.SetBool("IsHurt", true);
-        _stateManager.IsHurt = true;
         _fixedTime = 0;
     }
 
@@ -34,11 +33,7 @@ public class HurtState : APlayerState
         {
             _stateManager.ChangeState(EPlayerState.DEAD);
         }
-        if (_fixedTime >= _stateManager.OtherPlayer.GetComponent<PlayerStateMachineManager>().CurrentAttack.HurtTime)
-        {
-            _stateManager.IsHurt = false;
-        }
-        if (!_stateManager.IsHurt)
+        if (!_stateManager.IsStunned && _fixedTime > _stateManager.OtherPlayer.GetComponent<PlayerStateMachineManager>().CurrentAttack.HitStun)
         {
             _stateManager.ChangeState(EPlayerState.IDLE);
         }

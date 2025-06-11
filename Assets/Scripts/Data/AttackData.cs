@@ -10,7 +10,7 @@ public class AttackData : ScriptableObject
     [SerializeField] private string _animatorCondition;
     [SerializeField] private int _attackDamage;
     [SerializeField] private float _attackCooldown;
-    [SerializeField] private float _hurtTime;
+    [SerializeField] private float _hitStun;
     [SerializeField] private float _knockbackForce;
     [SerializeField] private Sprite[] _canComboFrames;
     [SerializeField] private Sprite _endFrame;
@@ -35,9 +35,9 @@ public class AttackData : ScriptableObject
     {
         get { return _attackCooldown; }
     }
-    public float HurtTime
+    public float HitStun
     {
-        get { return _hurtTime; }
+        get { return _hitStun; }
     }
     public float KnockbackForce
     {
