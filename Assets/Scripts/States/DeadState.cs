@@ -6,6 +6,7 @@ public class DeadState : APlayerState
 {
     public override void Enter()
     {
+        _stateManager.ResetCombo();
         _animator.SetBool("IsDead", true);
     }
 

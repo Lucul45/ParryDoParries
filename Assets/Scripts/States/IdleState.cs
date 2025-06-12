@@ -33,7 +33,7 @@ public class IdleState : APlayerState
         {
             _stateManager.ChangeState(EPlayerState.DEAD);
         }
-        if (_stateManager.MovementInput.x != 0f)
+        if (_stateManager.MovementInput.x != 0f && _stateManager.CanMove)
         {
             _stateManager.ChangeState(EPlayerState.MOVE);
         }

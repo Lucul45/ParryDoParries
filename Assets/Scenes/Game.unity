@@ -5421,7 +5421,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1548162989360856272, guid: a1450121f5fafe24c9c6812f2900ade1, type: 3}
       propertyPath: m_DefaultControlScheme
-      value: Controller
+      value: Keyboard
       objectReference: {fileID: 0}
     - target: {fileID: 1548162989360856272, guid: a1450121f5fafe24c9c6812f2900ade1, type: 3}
       propertyPath: m_ActionEvents.Array.size
@@ -5956,7 +5956,7 @@ PrefabInstance:
       objectReference: {fileID: 1452043398}
     - target: {fileID: 1548162989360856272, guid: a1450121f5fafe24c9c6812f2900ade1, type: 3}
       propertyPath: m_DefaultControlScheme
-      value: Keyboard
+      value: Controller
       objectReference: {fileID: 0}
     - target: {fileID: 1548162989360856272, guid: a1450121f5fafe24c9c6812f2900ade1, type: 3}
       propertyPath: m_ActionEvents.Array.size

@@ -17,8 +17,10 @@ MonoBehaviour:
   _animatorCondition: IsAttacking3
   _attackDamage: 12
   _attackCooldown: 3
-  _hitStun: 0.42
-  _knockbackForce: 5
+  _hitStun: 0.5
+  _knockbackForce: 7
   _canComboFrames:
   - {fileID: 21300000, guid: 7476feed19187fc4e83f90eed3310911, type: 3}
   _endFrame: {fileID: 21300000, guid: 6f0350ba59ff78a479044199019af776, type: 3}
+  _clankFrames:
+  - {fileID: 21300000, guid: d909d30f719db7f4fa040924985f0977, type: 3}

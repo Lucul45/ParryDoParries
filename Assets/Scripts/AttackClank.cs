@@ -19,15 +19,16 @@ public class AttackClank : MonoBehaviour
             Debug.Log(collision.gameObject.name);
             if (collision.gameObject.name == "AttackHitbox")
             {
-                _stateMachineManager.Clank();
-                //_stateMachineManager.OtherPlayer.GetComponent<PlayerStateMachineManager>().Clank();
+                StartCoroutine(_stateMachineManager.Clank());
+                StartCoroutine(_stateMachineManager.OtherPlayer.GetComponent<PlayerStateMachineManager>().Clank());
+                return;
             }
-            else if (tag == "AttackP1" && collision.transform.parent.gameObject.tag == "Player2")
+            else if (_stateMachineManager.CurrentAttack != null && tag == "AttackP1" && collision.transform.parent.gameObject.tag == "Player2" && (!_stateMachineManager.CanClank || !_stateMachineManager.OtherPlayer.GetComponent<PlayerStateMachineManager>().CanClank))
             {
                 if (!_stateMachineManager.OtherPlayer.GetComponent<PlayerStateMachineManager>().IsParrying)
                 {
                     _stateMachineManager.OtherPlayer.GetComponent<PlayerStateMachineManager>().ChangeState(EPlayerState.HURT);
-                    _stateMachineManager.OtherPlayer.GetComponent<PlayerStateMachineManager>().PlayerDamageManager.TakeDamage(collision.GetComponentInParent<PlayerStateMachineManager>().CurrentAttack.AttackDamage);
+                    _stateMachineManager.OtherPlayer.GetComponent<PlayerStateMachineManager>().PlayerDamageManager.TakeDamage(_stateMachineManager.CurrentAttack.AttackDamage);
                     if (!_damageManager.FreezeEnabled)
                     {
                         StartCoroutine(_damageManager.Freeze());
@@ -35,18 +36,15 @@ public class AttackClank : MonoBehaviour
 
                 }
             }
-            else if (tag == "AttackP2" && collision.transform.parent.gameObject.tag == "Player1")
+            else if (_stateMachineManager.CurrentAttack != null && tag == "AttackP2" && collision.transform.parent.gameObject.tag == "Player1" && (!_stateMachineManager.CanClank || !_stateMachineManager.OtherPlayer.GetComponent<PlayerStateMachineManager>().CanClank))
             {
                 if (!_stateMachineManager.IsParrying)
                 {
-                    if (collision.GetComponentInParent<PlayerStateMachineManager>().CurrentAttack != null)
+                    _stateMachineManager.OtherPlayer.GetComponent<PlayerStateMachineManager>().ChangeState(EPlayerState.HURT);
+                    _stateMachineManager.OtherPlayer.GetComponent<PlayerStateMachineManager>().PlayerDamageManager.TakeDamage(_stateMachineManager.CurrentAttack.AttackDamage);
+                    if (!_damageManager.FreezeEnabled)
                     {
-                        _stateMachineManager.ChangeState(EPlayerState.HURT);
-                        _damageManager.TakeDamage(collision.GetComponentInParent<PlayerStateMachineManager>().CurrentAttack.AttackDamage);
-                        if (!_damageManager.FreezeEnabled)
-                        {
-                            StartCoroutine(_damageManager.Freeze());
-                        }
+                        StartCoroutine(_damageManager.Freeze());
                     }
                 }
             }

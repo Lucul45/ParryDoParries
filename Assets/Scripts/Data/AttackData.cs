@@ -14,6 +14,7 @@ public class AttackData : ScriptableObject
     [SerializeField] private float _knockbackForce;
     [SerializeField] private Sprite[] _canComboFrames;
     [SerializeField] private Sprite _endFrame;
+    [SerializeField] private Sprite[] _clankFrames;
 
     public int AttackID
     {
@@ -50,5 +51,9 @@ public class AttackData : ScriptableObject
     public Sprite EndFrame
     {
         get { return _endFrame; }
+    }
+    public Sprite[] ClankFrames
+    {
+        get { return _clankFrames; }
     }
 }

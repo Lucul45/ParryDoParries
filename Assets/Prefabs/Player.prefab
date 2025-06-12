@@ -273,8 +273,8 @@ MonoBehaviour:
   _dashBar: {fileID: 0}
   _perfectParryFrame: {fileID: 0}
   _otherPlayer: {fileID: 0}
-  _playerSpeed: 5
-  _clankForce: 200
+  _playerSpeed: 7
+  _clankForce: 100
   _dashForce: 10
   _dashCooldown: 1
   _dashTime: 0.2
@@ -291,7 +291,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _healthBar: {fileID: 0}
-  _freezeDuration: 0.15
+  _freezeDuration: 0.2
 --- !u!1 &7770802639889903698
 GameObject:
   m_ObjectHideFlags: 0

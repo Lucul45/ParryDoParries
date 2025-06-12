@@ -43,14 +43,20 @@ public class PlayerStateMachineManager : MonoBehaviour
     [SerializeField] private float _clankForce = 10f;
 
     private Vector2 _movementInput = Vector2.zero;
+
+    private bool _canMove = true;
+
     private AttackData _currentAttack = null;
     private bool _canAttack = true;
+    private int _attackIndex = 1;
+    private bool _shouldCombo = false;
 
     private bool _canParry = true;
     private bool _isParrying = false;
     private bool _perfectParry = false;
 
     private bool _isStunned = false;
+    private bool _canClank = false;
 
     [SerializeField] private float _dashForce = 10f;
     [SerializeField] private float _dashCooldown = 1f;
@@ -132,6 +138,10 @@ public class PlayerStateMachineManager : MonoBehaviour
     {
         get { return _movementInput; }
     }
+    public bool CanMove
+    {
+        get { return _canMove; }
+    }
     public AttackData CurrentAttack
     {
         get { return _currentAttack; }
@@ -141,6 +151,16 @@ public class PlayerStateMachineManager : MonoBehaviour
     {
         get { return _canAttack; }
         set { _canAttack = value; }
+    }
+    public int AttackIndex
+    {
+        get { return _attackIndex; }
+        set { _attackIndex = value; }
+    }
+    public bool ShouldCombo
+    {
+        get { return _shouldCombo; }
+        set { _shouldCombo = value; }
     }
     public bool CanParry
     {
@@ -161,6 +181,11 @@ public class PlayerStateMachineManager : MonoBehaviour
     public bool IsStunned
     {
         get { return _isStunned; }
+    }
+    public bool CanClank
+    {
+        get { return _canClank; }
+        set { _canClank = value; }
     }
     public float DashTime
     {
@@ -318,10 +343,23 @@ public class PlayerStateMachineManager : MonoBehaviour
         }
     }
 
-    public void Clank()
+    public IEnumerator Clank()
     {
+        _canMove = false;
         StartCoroutine(_playerDamageManager.Freeze());
         ChangeState(EPlayerState.IDLE);
         _rb.AddForce(-transform.right * _clankForce);
+        yield return new WaitForSeconds(0.5f);
+        _canMove = true;
+    }
+
+    public void ResetCombo()
+    {
+        _attackIndex = 1;
+        _shouldCombo = false;
+        _animator.SetBool("IsAttacking1", false);
+        _animator.SetBool("IsAttacking2", false);
+        _animator.SetBool("IsAttacking3", false);
+        _animator.SetBool("IsAttackingDash", false);
     }
 }
