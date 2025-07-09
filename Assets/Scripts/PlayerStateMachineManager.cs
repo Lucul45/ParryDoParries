@@ -301,6 +301,7 @@ public class PlayerStateMachineManager : Singleton<PlayerStateMachineManager>
         _rb.velocity = new Vector2(dir.x * _playerSpeed, 0);
     }
 
+    // store the input to set the direction of the dash
     public Vector2 RecordInput()
     {
         Vector2 recorded = _rb.velocity;    
