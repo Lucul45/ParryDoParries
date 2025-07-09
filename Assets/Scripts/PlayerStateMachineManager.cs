@@ -66,6 +66,8 @@ public class PlayerStateMachineManager : Singleton<PlayerStateMachineManager>
 
     private PlayerControls _controls;
 
+    private Dictionary<EPlayerState, int> _stateOnFrame = new Dictionary<EPlayerState, int>();
+
     private event Action _attackPressed = null;
     public event Action AttackPressed
     {
@@ -104,6 +106,13 @@ public class PlayerStateMachineManager : Singleton<PlayerStateMachineManager>
         get
         {
             return _states[_currentState];
+        }
+    }
+    public EPlayerState EnumCurrentState
+    {
+        get
+        {
+            return _currentState;
         }
     }
     public EPlayerState LastState
@@ -148,7 +157,6 @@ public class PlayerStateMachineManager : Singleton<PlayerStateMachineManager>
         set 
         { 
             _currentAttack = value;
-            FrameDataManager.Instance.ChangeFrameDataUI(_currentAttack);
         }
     }
     public bool CanAttack
@@ -208,11 +216,15 @@ public class PlayerStateMachineManager : Singleton<PlayerStateMachineManager>
         get { return _fixedTime; }
         set { _fixedTime = value; }
     }
+    public Dictionary<EPlayerState, int> StateOnFrame
+    {
+        get { return _stateOnFrame; }
+    }
 
     // Start is called before the first frame update
     void Start()
     {
-        FrameManager.Instance.FrameUpdate += UpdateOnFrame; 
+        FrameManager.Instance.FrameUpdate += UpdateOnFrame;
         _cooldown = _dashCooldown + _dashTime;
         _states = new Dictionary<EPlayerState, APlayerState>();
         _states.Add(EPlayerState.IDLE, new IdleState());
@@ -240,12 +252,15 @@ public class PlayerStateMachineManager : Singleton<PlayerStateMachineManager>
         _animator.SetFloat("Speed", _rb.velocity.x);
     }
 
+    // Change the state of the state machine and store on which frame it does
     public void ChangeState(EPlayerState nextState)
     {
-        //Debug.Log("Transition from " + CurrentState + " To " + nextState);
+        Debug.Log("Transition from " + CurrentState + " To " + nextState);
         CurrentState.Exit();
+        _stateOnFrame.Clear();
         _lastState = _currentState;
         _currentState = nextState;
+        _stateOnFrame.Add(_currentState, FrameManager.Instance.ElapsedFrames);
         CurrentState.Enter();
     }
 
