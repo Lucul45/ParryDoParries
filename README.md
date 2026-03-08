@@ -3,7 +3,7 @@ Frame data tool for a fighting game
 
 ## My background
 
-I started to be really into programming 3/4 years ago. I learned Unity through a game design school where my professor and my friends showed me how permissive and free is a game engine. It maked me wanted to create experience for people with a strong game feel. I'm making this tool because I'm a big fan of fighting games and I've always wanted to make one. I jumped into the project but I rapidly realise that I need some frame data tool because frame data is really centralizer for a fighting game. I also wanted to challenge myself, progress in programmation and share my code to be part and experience the programmation community.
+I started to be really into programming 3/4 years ago. I learned Unity through a game design school where my professor and my friends showed me how permissive and free is a game engine. It maked me wanted to create experience for people with a strong game feel.I'm making this game because I'm a big fan of fighting games and I've always wanted to make one. I jumped into the project but I rapidly realise that I need some frame data tool because frame data is really centralizer for a fighting game. I also wanted to challenge myself, progress in programmation and share my code to be part and experience the programmation community.
 
 
 
