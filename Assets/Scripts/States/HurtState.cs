@@ -28,6 +28,7 @@ public class HurtState : APlayerState
         FrameManager.Instance.FrameDataUI.ResetAdvantageCalculated();
         _playerController.ResetCombo();
         _animator.SetBool("IsHurt", true);
+        FreezeFrameManager.Instance.StartCoroutine(FreezeFrameManager.Instance.Freeze());
     }
 
     public override void Exit()
