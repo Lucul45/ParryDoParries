@@ -264,7 +264,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _healthBar: {fileID: 0}
-  _freezeDuration: 0.2
 --- !u!114 &5579199154852900648
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -278,9 +277,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _playerID: 0
-  _animator: {fileID: 0}
-  _rb: {fileID: 0}
-  _spriteRenderer: {fileID: 0}
+  _animator: {fileID: 1875955441753283811}
+  _rb: {fileID: 216382335144830490}
+  _spriteRenderer: {fileID: 37026037613520414}
+  _playerHealth: {fileID: 420786306830560700}
   _attacksData:
   - {fileID: 11400000, guid: 92e91e8ad5cf16e429e3469e55cc9303, type: 2}
   - {fileID: 11400000, guid: e434ac1d6181a0944836db519a03c621, type: 2}

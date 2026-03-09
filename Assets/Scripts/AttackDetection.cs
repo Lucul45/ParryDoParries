@@ -11,6 +11,7 @@ public class AttackDetection : MonoBehaviour
         {
             PlayerStateMachineManager.Instance.ChangeStateP2(EPlayerState.HURT);
             PlayerStateMachineManager.Instance.CurrentStateP2.AttackHitten = GetComponentInParent<PlayerController>().CurrentAttack;
+            Debug.Log(GetComponentInParent<PlayerController>().CurrentAttack.AttackDamage);
         }
         else if (collision.tag == "Player1")
         {

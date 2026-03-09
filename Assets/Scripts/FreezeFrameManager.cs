@@ -21,6 +21,7 @@ public class FreezeFrameManager : Singleton<FreezeFrameManager>
         }
     }
 
+    //Freeze the screen
     public IEnumerator Freeze()
     {
         _freezeEnabled = true;

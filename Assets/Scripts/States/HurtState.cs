@@ -28,21 +28,27 @@ public class HurtState : APlayerState
         FrameManager.Instance.FrameDataUI.ResetAdvantageCalculated();
         _playerController.ResetCombo();
         _animator.SetBool("IsHurt", true);
+        // Take damage
+        //_playerHealth.TakeDamage(AttackHitten.AttackDamage);
+        // Freeze the screen a few time to make the hits seem more impactful
         FreezeFrameManager.Instance.StartCoroutine(FreezeFrameManager.Instance.Freeze());
     }
 
     public override void Exit()
     {
+        // Take damage
+        _playerHealth.TakeDamage(AttackHitten.AttackDamage);
         _animator.SetBool("IsHurt", false);
     }
 
-    public override void Init(PlayerStateMachineManager stateManager, Animator animator, SpriteRenderer spriteRenderer, Rigidbody2D rb, PlayerController playerController)
+    public override void Init(PlayerStateMachineManager stateManager, Animator animator, SpriteRenderer spriteRenderer, Rigidbody2D rb, PlayerController playerController, PlayerHealth playerHealth)
     {
         _stateManager = stateManager;
         _animator = animator;
         _spriteRenderer = spriteRenderer;
         _rb = rb;
         _playerController = playerController;
+        _playerHealth = playerHealth;
     }
 
     public override void Update()

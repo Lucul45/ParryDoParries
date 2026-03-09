@@ -1450,11 +1450,6 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 3555388760170741894, guid: a1450121f5fafe24c9c6812f2900ade1, type: 3}
   m_PrefabInstance: {fileID: 1958339762}
   m_PrefabAsset: {fileID: 0}
---- !u!50 &569800625 stripped
-Rigidbody2D:
-  m_CorrespondingSourceObject: {fileID: 216382335144830490, guid: a1450121f5fafe24c9c6812f2900ade1, type: 3}
-  m_PrefabInstance: {fileID: 1958339762}
-  m_PrefabAsset: {fileID: 0}
 --- !u!114 &569800628 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 5579199154852900648, guid: a1450121f5fafe24c9c6812f2900ade1, type: 3}
@@ -1738,11 +1733,6 @@ MonoBehaviour:
 --- !u!1 &704682581 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 3555388760170741894, guid: a1450121f5fafe24c9c6812f2900ade1, type: 3}
-  m_PrefabInstance: {fileID: 7334611334648452275}
-  m_PrefabAsset: {fileID: 0}
---- !u!50 &704682585 stripped
-Rigidbody2D:
-  m_CorrespondingSourceObject: {fileID: 216382335144830490, guid: a1450121f5fafe24c9c6812f2900ade1, type: 3}
   m_PrefabInstance: {fileID: 7334611334648452275}
   m_PrefabAsset: {fileID: 0}
 --- !u!114 &704682588 stripped
@@ -3120,16 +3110,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: -20, y: -20}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!212 &1318296972 stripped
-SpriteRenderer:
-  m_CorrespondingSourceObject: {fileID: 37026037613520414, guid: a1450121f5fafe24c9c6812f2900ade1, type: 3}
-  m_PrefabInstance: {fileID: 1958339762}
-  m_PrefabAsset: {fileID: 0}
---- !u!95 &1318296973 stripped
-Animator:
-  m_CorrespondingSourceObject: {fileID: 1875955441753283811, guid: a1450121f5fafe24c9c6812f2900ade1, type: 3}
-  m_PrefabInstance: {fileID: 1958339762}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1348129205
 GameObject:
   m_ObjectHideFlags: 0
@@ -3346,16 +3326,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1364030869}
   m_CullTransparentMesh: 1
---- !u!212 &1386045603 stripped
-SpriteRenderer:
-  m_CorrespondingSourceObject: {fileID: 37026037613520414, guid: a1450121f5fafe24c9c6812f2900ade1, type: 3}
-  m_PrefabInstance: {fileID: 7334611334648452275}
-  m_PrefabAsset: {fileID: 0}
---- !u!95 &1386045604 stripped
-Animator:
-  m_CorrespondingSourceObject: {fileID: 1875955441753283811, guid: a1450121f5fafe24c9c6812f2900ade1, type: 3}
-  m_PrefabInstance: {fileID: 7334611334648452275}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1390247939 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3016914643995557557, guid: 7af28f4eb08f18345b4004da832e8073, type: 3}
@@ -5772,21 +5742,9 @@ PrefabInstance:
       value: Player2
       objectReference: {fileID: 0}
     - target: {fileID: 5579199154852900648, guid: a1450121f5fafe24c9c6812f2900ade1, type: 3}
-      propertyPath: _rb
-      value: 
-      objectReference: {fileID: 569800625}
-    - target: {fileID: 5579199154852900648, guid: a1450121f5fafe24c9c6812f2900ade1, type: 3}
-      propertyPath: _animator
-      value: 
-      objectReference: {fileID: 1318296973}
-    - target: {fileID: 5579199154852900648, guid: a1450121f5fafe24c9c6812f2900ade1, type: 3}
       propertyPath: _playerID
       value: 2
       objectReference: {fileID: 0}
-    - target: {fileID: 5579199154852900648, guid: a1450121f5fafe24c9c6812f2900ade1, type: 3}
-      propertyPath: _spriteRenderer
-      value: 
-      objectReference: {fileID: 1318296972}
     - target: {fileID: 6032529101743062088, guid: a1450121f5fafe24c9c6812f2900ade1, type: 3}
       propertyPath: m_LocalPosition.x
       value: 7
@@ -6831,21 +6789,9 @@ PrefabInstance:
       value: Player1
       objectReference: {fileID: 0}
     - target: {fileID: 5579199154852900648, guid: a1450121f5fafe24c9c6812f2900ade1, type: 3}
-      propertyPath: _rb
-      value: 
-      objectReference: {fileID: 704682585}
-    - target: {fileID: 5579199154852900648, guid: a1450121f5fafe24c9c6812f2900ade1, type: 3}
-      propertyPath: _animator
-      value: 
-      objectReference: {fileID: 1386045604}
-    - target: {fileID: 5579199154852900648, guid: a1450121f5fafe24c9c6812f2900ade1, type: 3}
       propertyPath: _playerID
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 5579199154852900648, guid: a1450121f5fafe24c9c6812f2900ade1, type: 3}
-      propertyPath: _spriteRenderer
-      value: 
-      objectReference: {fileID: 1386045603}
     - target: {fileID: 6032529101743062088, guid: a1450121f5fafe24c9c6812f2900ade1, type: 3}
       propertyPath: m_LocalPosition.x
       value: -7

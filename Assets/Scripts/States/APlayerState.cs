@@ -9,6 +9,7 @@ public abstract class APlayerState
     protected SpriteRenderer _spriteRenderer;
     protected Rigidbody2D _rb;
     protected PlayerController _playerController;
+    protected PlayerHealth _playerHealth;
 
     protected uint _stateFrameP1 = 0;
     protected uint _stateFrameP2 = 0;
@@ -47,7 +48,7 @@ public abstract class APlayerState
         set {  _attackHitten = value; }
     }
 
-    public abstract void Init(PlayerStateMachineManager stateManager, Animator animator, SpriteRenderer spriteRenderer, Rigidbody2D rb, PlayerController _playerController);
+    public abstract void Init(PlayerStateMachineManager stateManager, Animator animator, SpriteRenderer spriteRenderer, Rigidbody2D rb, PlayerController _playerController, PlayerHealth playerHealth);
 
     public abstract void Enter();
 

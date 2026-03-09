@@ -13,6 +13,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private Animator _animator;
     [SerializeField] private Rigidbody2D _rb;
     [SerializeField] private SpriteRenderer _spriteRenderer;
+    [SerializeField] private PlayerHealth _playerHealth;
     [SerializeField] private AttackData[] _attacksData;
 
     [SerializeField] private float _playerSpeed = 10f;
@@ -40,6 +41,10 @@ public class PlayerController : MonoBehaviour
     public SpriteRenderer SpriteRenderer
     {
         get { return _spriteRenderer; }
+    }
+    public PlayerHealth PlayerHealth
+    {
+        get { return _playerHealth; }
     }
     public AttackData[] AttacksData
     {

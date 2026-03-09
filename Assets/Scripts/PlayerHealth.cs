@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class PlayerHealth : MonoBehaviour
 {
-    private PlayerStateMachineManager _stateMachineManager;
     [SerializeField] private HealthBar _healthBar;
 
     private int _maxHealth = 100;
@@ -26,7 +25,7 @@ public class PlayerHealth : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        _stateMachineManager = GetComponent<PlayerStateMachineManager>();
+        
     }
 
     // Update is called once per frame
