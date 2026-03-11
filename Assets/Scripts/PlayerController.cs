@@ -26,6 +26,8 @@ public class PlayerController : MonoBehaviour
 
     private bool _isHitting = false;
 
+    private int _deathCooldown = 5;
+
     public int PlayerID
     {
         get { return _playerID; }
@@ -84,6 +86,11 @@ public class PlayerController : MonoBehaviour
     {
         get { return _isHitting; }
         set { _isHitting = value; }
+    }
+    public int DeathCooldown
+    {
+        get { return Mathf.Clamp(_deathCooldown, 0, 100); }
+        set { _deathCooldown = value; }
     }
 
     #region Events

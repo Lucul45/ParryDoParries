@@ -13,7 +13,7 @@ public class MeleeBaseState : APlayerState
         {
             StateFrameP1 = 0;
         }
-        else
+        else if (_playerController.PlayerID == 2)
         {
             StateFrameP2 = 0;
         }
@@ -53,10 +53,18 @@ public class MeleeBaseState : APlayerState
         if (_playerController.PlayerID == 1)
         {
             StateFrameP1++;
+            if (_playerHealth.CurrentHealth <= 0)
+            {
+                _stateManager.ChangeStateP1(EPlayerState.DEAD);
+            }
         }
-        else
+        else if (_playerController.PlayerID == 2)
         {
             StateFrameP2++;
+            if (_playerHealth.CurrentHealth <= 0)
+            {
+                _stateManager.ChangeStateP2(EPlayerState.DEAD);
+            }
         }
         // Making sure the character can't move while attacking
         _playerController.Move(Vector2.zero);

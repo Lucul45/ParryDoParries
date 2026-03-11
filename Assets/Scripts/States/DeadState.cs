@@ -1,26 +1,38 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Diagnostics;
 using UnityEngine;
 
-public class MoveState : APlayerState
+public class DeadState : APlayerState
 {
     public override void Enter()
     {
+        DeathManager.Instance.ResetCooldown(_playerController.DeathCooldown);
         if (_playerController.PlayerID == 1)
         {
             StateFrameP1 = 0;
+            PhysicsCollisions.Instance.DeadCollisionsP1();
         }
         else if (_playerController.PlayerID == 2)
         {
             StateFrameP2 = 0;
+            PhysicsCollisions.Instance.DeadCollisionsP2();
         }
-        _playerController.AttackPressed += Attack;
+        _animator.SetBool("IsDead", true);
     }
 
     public override void Exit()
     {
-        _playerController.AttackPressed -= Attack;
+        if (_playerController.PlayerID == 1)
+        {
+            PhysicsCollisions.Instance.AliveCollisionsP1();
+        }
+        else if (_playerController.PlayerID == 2)
+        {
+            PhysicsCollisions.Instance.AliveCollisionsP2();
+        }
+        DeathManager.Instance.Respawn(_playerController, _playerHealth);
+        _playerController.DeathCooldown = DeathManager.Instance.ResetCooldown(_playerController.DeathCooldown);
+        _animator.SetBool("IsDead", false);
     }
 
     public override void Init(PlayerStateMachineManager stateManager, Animator animator, SpriteRenderer spriteRenderer, Rigidbody2D rb, PlayerController playerController, PlayerHealth playerHealth)
@@ -35,15 +47,11 @@ public class MoveState : APlayerState
 
     public override void Update()
     {
+        _playerController.DeathCooldown = DeathManager.Instance.UpdateCooldown(_playerController, _playerController.DeathCooldown);
         if (_playerController.PlayerID == 1)
         {
             StateFrameP1++;
-            if (_playerHealth.CurrentHealth <= 0)
-            {
-                _stateManager.ChangeStateP1(EPlayerState.DEAD);
-            }
-            // if we don't move, change to idle
-            if (_playerController.MovementInput.x == 0)
+            if (_playerController.DeathCooldown <= 0)
             {
                 _stateManager.ChangeStateP1(EPlayerState.IDLE);
             }
@@ -51,31 +59,9 @@ public class MoveState : APlayerState
         else if (_playerController.PlayerID == 2)
         {
             StateFrameP2++;
-            if (_playerHealth.CurrentHealth <= 0)
-            {
-                _stateManager.ChangeStateP2(EPlayerState.DEAD);
-            }
-            // if we don't move, change to idle
-            if (_playerController.MovementInput.x == 0)
+            if (_playerController.DeathCooldown <= 0)
             {
                 _stateManager.ChangeStateP2(EPlayerState.IDLE);
-            }
-        }
-
-            _playerController.Move(_playerController.MovementInput);
-    }
-
-    private void Attack()
-    {
-        if (_playerController.CanAttack)
-        {
-            if (_playerController.PlayerID == 1)
-            {
-                _stateManager.ChangeStateP1(EPlayerState.MELEE);
-            }
-            else
-            {
-                _stateManager.ChangeStateP2(EPlayerState.MELEE);
             }
         }
     }

@@ -13,7 +13,7 @@ public class HurtState : APlayerState
         {
             StateFrameP1 = 0;
         }
-        else
+        else if (_playerController.PlayerID == 2)
         {
             StateFrameP2 = 0;
         }
@@ -56,15 +56,23 @@ public class HurtState : APlayerState
         if (_playerController.PlayerID == 1)
         {
             StateFrameP1++;
+            if (_playerHealth.CurrentHealth <= 0)
+            {
+                _stateManager.ChangeStateP1(EPlayerState.DEAD);
+            }
             // If the frame on the current is greater or equal than hitstun, then change state to idle
             if (StateFrameP1 >= (int)(AttackHitten.Clip.length * 60) - _hitAttackFrame + AttackHitten.AdvantageFrames)
             {
                 _stateManager.ChangeStateP1(EPlayerState.IDLE);
             }
         }
-        else
+        else if (_playerController.PlayerID == 2)
         {
             StateFrameP2++;
+            if (_playerHealth.CurrentHealth <= 0)
+            {
+                _stateManager.ChangeStateP2(EPlayerState.DEAD);
+            }
             // If the frame on the current is greater or equal than hitstun, then change state to idle
             if (StateFrameP2 >= (int)(AttackHitten.Clip.length * 60) - _hitAttackFrame + AttackHitten.AdvantageFrames)
             {

@@ -18,6 +18,11 @@ public class FrameManager : Singleton<FrameManager>
     /// </summary>
     private uint _elapsedFrames = 0;
 
+    /// <summary>
+    /// Number of frames by seconds. WARNING : if you want to change this value, you need to change the fixed timestep in the project settings
+    /// </summary>
+    private uint _frameBySeconds = 60;
+
     private List<FrameActionData> _dataList = new List<FrameActionData>();
     private Dictionary<uint, List<FrameActionData>> _playersActionFrames = new Dictionary<uint, List<FrameActionData>>();
     public struct FrameActionData
@@ -39,7 +44,13 @@ public class FrameManager : Singleton<FrameManager>
     {
         get { return _elapsedFrames; }
     }
-
+    /// <summary>
+    /// Number of frames by seconds. WARNING : if you want to change this value, you need to change the fixed timestep in the project settings
+    /// </summary>
+    public uint FrameBySeconds
+    {
+        get { return _frameBySeconds; }
+    }
     public Dictionary<uint, List<FrameActionData>> PlayersActionFrames
     {
         get { return _playersActionFrames; }
@@ -62,7 +73,7 @@ public class FrameManager : Singleton<FrameManager>
     private void FixedUpdate()
     {
         // every 1/60 of a second, a frame passed
-        if (_elapsedTime >= 1 / 60)
+        if (_elapsedTime >= 1 / FrameBySeconds)
         {
             _elapsedFrames++;
             _frameUpdate();

@@ -11,7 +11,7 @@ public class IdleState : APlayerState
         {
             StateFrameP1 = 0;
         }
-        else
+        else if (_playerController.PlayerID == 2)
         {
             StateFrameP2 = 0;
         }
@@ -38,15 +38,23 @@ public class IdleState : APlayerState
         if (_playerController.PlayerID == 1)
         {
             StateFrameP1++;
+            if (_playerHealth.CurrentHealth <= 0)
+            {
+                _stateManager.ChangeStateP1(EPlayerState.DEAD);
+            }
             // If the input isn't neutral
             if (_playerController.MovementInput.x != 0f)
             {
                 _stateManager.ChangeStateP1(EPlayerState.MOVE);
             }
         }
-        else
+        else if ( _playerController.PlayerID == 2)
         {
             StateFrameP2++;
+            if (_playerHealth.CurrentHealth <= 0)
+            {
+                _stateManager.ChangeStateP2(EPlayerState.DEAD);
+            }
             // If the input isn't neutral
             if (_playerController.MovementInput.x != 0f)
             {

@@ -15,17 +15,12 @@ public class PlayerHealth : MonoBehaviour
     }
     public int CurrentHealth
     {
-        get { return _currentHealth; }
-        set 
-        { 
-            _currentHealth = value;
-            _healthBar.SetHealthValue(_currentHealth);
-        }
+        get { return Mathf.Clamp(_currentHealth, 0, 100); }
     }
     // Start is called before the first frame update
     void Start()
     {
-        
+        ResetHealth();
     }
 
     // Update is called once per frame
@@ -36,6 +31,13 @@ public class PlayerHealth : MonoBehaviour
 
     public void TakeDamage(int damage)
     {
-        CurrentHealth -= damage;
+        _currentHealth -= damage;
+        _healthBar.SetHealthValue(_currentHealth);
+    }
+
+    public void ResetHealth()
+    {
+        _currentHealth = _maxHealth;
+        _healthBar.SetHealthValue(_currentHealth);
     }
 }

@@ -13,6 +13,7 @@ public enum EPlayerState
     MOVE,
     MELEE,
     HURT,
+    DEAD,
     NONE
 }
 
@@ -118,12 +119,14 @@ public class PlayerStateMachineManager : Singleton<PlayerStateMachineManager>
         _statesP1.Add(EPlayerState.MOVE, new MoveState());
         _statesP1.Add(EPlayerState.MELEE, new MeleeBaseState());
         _statesP1.Add(EPlayerState.HURT, new HurtState());
+        _statesP1.Add(EPlayerState.DEAD, new DeadState());
 
         _statesP2 = new Dictionary<EPlayerState, APlayerState>();
         _statesP2.Add(EPlayerState.IDLE, new IdleState());
         _statesP2.Add(EPlayerState.MOVE, new MoveState());
         _statesP2.Add(EPlayerState.MELEE, new MeleeBaseState());
         _statesP2.Add(EPlayerState.HURT, new HurtState());
+        _statesP2.Add(EPlayerState.DEAD, new DeadState());
 
         foreach (KeyValuePair<EPlayerState, APlayerState> state in _statesP1)
         {
@@ -171,18 +174,18 @@ public class PlayerStateMachineManager : Singleton<PlayerStateMachineManager>
     // Change the state of the state machine and store on which frame it does
     public void ChangeStateP1(EPlayerState nextState)
     {
-        UnityEngine.Debug.Log("Transition from " + CurrentStateP1 + " To " + nextState);
+        UnityEngine.Debug.Log("Player 1 : Transition from " + CurrentStateP1 + " To " + nextState);
         CurrentStateP1.Exit();
         _lastStateP1 = _currentStateP1;
         if (_currentStateP1 == EPlayerState.MELEE && nextState == EPlayerState.IDLE)
         {
             _lastAttackToIdleFrameP1 = FrameManager.Instance.ElapsedFrames;
-            UnityEngine.Debug.Log($"Joueur {gameObject.name} (Attack) -> IDLE à la frame : {_lastAttackToIdleFrameP1}");
+            UnityEngine.Debug.Log($"Player 1 (Attack) -> IDLE à la frame : {_lastAttackToIdleFrameP1}");
         }
         if (_currentStateP1 == EPlayerState.HURT && nextState == EPlayerState.IDLE)
         {
             _lastHurtToIdleFrameP1 = FrameManager.Instance.ElapsedFrames;
-            UnityEngine.Debug.Log($"Joueur {gameObject.name} (Hurt) -> IDLE à la frame : {_lastHurtToIdleFrameP1}");
+            UnityEngine.Debug.Log($"Player 1 (Hurt) -> IDLE à la frame : {_lastHurtToIdleFrameP1}");
         }
         _currentStateP1 = nextState;
         CurrentStateP1.Enter();
@@ -190,18 +193,18 @@ public class PlayerStateMachineManager : Singleton<PlayerStateMachineManager>
 
     public void ChangeStateP2(EPlayerState nextState)
     {
-        UnityEngine.Debug.Log("Transition from " + CurrentStateP2 + " To " + nextState);
+        UnityEngine.Debug.Log("Player 2 : Transition from " + CurrentStateP2 + " To " + nextState);
         CurrentStateP2.Exit();
         _lastStateP2 = _currentStateP2;
         if (_currentStateP2 == EPlayerState.MELEE && nextState == EPlayerState.IDLE)
         {
             _lastAttackToIdleFrameP2 = FrameManager.Instance.ElapsedFrames;
-            UnityEngine.Debug.Log($"Joueur {gameObject.name} (Attack) -> IDLE à la frame : {_lastAttackToIdleFrameP2}");
+            UnityEngine.Debug.Log($"Player 2 (Attack) -> IDLE à la frame : {_lastAttackToIdleFrameP2}");
         }
         if (_currentStateP2 == EPlayerState.HURT && nextState == EPlayerState.IDLE)
         {
             _lastHurtToIdleFrameP2 = FrameManager.Instance.ElapsedFrames;
-            UnityEngine.Debug.Log($"Joueur {gameObject.name} (Hurt) -> IDLE à la frame : {_lastHurtToIdleFrameP2}");
+            UnityEngine.Debug.Log($"Player 2 (Hurt) -> IDLE à la frame : {_lastHurtToIdleFrameP2}");
         }
         _currentStateP2 = nextState;
         CurrentStateP2.Enter();
