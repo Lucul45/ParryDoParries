@@ -31,7 +31,14 @@ public class HurtState : APlayerState
         // Take damage
         _playerHealth.TakeDamage(_opponent.CurrentAttack.AttackDamage);
         // Freeze the screen a few time to make the hits seem more impactful
-        FreezeFrameManager.Instance.StartCoroutine(FreezeFrameManager.Instance.Freeze());
+        if (_playerHealth.CurrentHealth <= 0)
+        {
+            FreezeFrameManager.Instance.StartCoroutine(FreezeFrameManager.Instance.Freeze(0.5f));
+        }
+        else
+        {
+            FreezeFrameManager.Instance.StartCoroutine(FreezeFrameManager.Instance.Freeze(0.2f));
+        }
     }
 
     public override void Exit()

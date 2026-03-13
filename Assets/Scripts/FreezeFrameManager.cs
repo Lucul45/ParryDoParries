@@ -4,30 +4,15 @@ using UnityEngine;
 
 public class FreezeFrameManager : Singleton<FreezeFrameManager>
 {
-    [Range(0, 0.5f)]
-    [SerializeField] private float _freezeDuration = 0.5f;
-
     private bool _freezeEnabled = false;
 
-    public float FreezeDuration
-    {
-        get
-        {
-            return _freezeDuration;
-        }
-        set
-        {
-            _freezeDuration = value;
-        }
-    }
-
     //Freeze the screen
-    public IEnumerator Freeze()
+    public IEnumerator Freeze(float freezeDuration)
     {
         _freezeEnabled = true;
         Time.timeScale = 0;
 
-        yield return new WaitForSecondsRealtime(_freezeDuration);
+        yield return new WaitForSecondsRealtime(freezeDuration);
 
         Time.timeScale = 1;
         _freezeEnabled = false;

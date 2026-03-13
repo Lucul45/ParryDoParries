@@ -4,49 +4,38 @@ using UnityEngine;
 
 public class WinCondition : Singleton<WinCondition>
 {
-    private int _p1TowersStanding = 3;
-    private int _p2TowersStanding = 3;
+    private int _p1TowersDestroyed = 0;
+    private int _p2TowersDestroyed = 0;
 
-    public int P1TowersStanding
+    public int P1TowersDestroyed
     {
         get
         {
-            return _p1TowersStanding;
+            return _p1TowersDestroyed;
         }
         set
         {
-            _p1TowersStanding = value;
-            if (value <= 0)
+            _p1TowersDestroyed = value;
+            if (value >= 3)
             {
                 P2Wins();
             }
         }
     }
-    public int P2TowersStanding
+    public int P2TowersDestroyed
     {
         get
         {
-            return _p2TowersStanding;
+            return _p2TowersDestroyed;
         }
         set
         {
-            _p2TowersStanding = value;
-            if (value <= 0)
+            _p2TowersDestroyed = value;
+            if (value >= 3)
             {
                 P1Wins();
             }
         }
-    }
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 
     public void P1Wins()

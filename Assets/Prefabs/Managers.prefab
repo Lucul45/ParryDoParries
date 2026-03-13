@@ -128,6 +128,7 @@ Transform:
   - {fileID: 6208791019339837576}
   - {fileID: 7193997584140375291}
   - {fileID: 4166793470172495622}
+  - {fileID: 817813508341007961}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &3647158997858837221
@@ -174,7 +175,50 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5ede1fee73522cb48a552b747fd4d6a5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _freezeDuration: 0.25
+--- !u!1 &4718749129818681691
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 817813508341007961}
+  - component: {fileID: 3034288000709235885}
+  m_Layer: 0
+  m_Name: TimerManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &817813508341007961
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4718749129818681691}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 7768842328578929199}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3034288000709235885
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4718749129818681691}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 06fb4542a8f136d41bbec195ebc1aa65, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &4996039340302533631
 GameObject:
   m_ObjectHideFlags: 0
@@ -405,8 +449,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d928bc0f9e59d2b4e91d8d1ef0cb70a7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _respawnPosP1: {x: 0, y: 0}
-  _respawnPosP2: {x: 0, y: 0}
+  _respawnPosP1:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  _respawnPosP2:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  _cooldownTextP1: {fileID: 0}
+  _cooldownTextP2: {fileID: 0}
 --- !u!1 &8812136864396440143
 GameObject:
   m_ObjectHideFlags: 0

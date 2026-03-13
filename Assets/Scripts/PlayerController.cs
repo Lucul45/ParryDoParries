@@ -119,9 +119,21 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Move the character based on a vector2 input. Also makes the character faced the right direction
+    /// </summary>
+    /// <param name="dir"></param>
     public void Move(Vector2 dir)
     {
         _rb.velocity = new Vector2(dir.x * _playerSpeed, 0);
+        if (dir.x < 0)
+        {
+            transform.rotation = Quaternion.Euler(0, 180, 0);
+        }
+        else if (dir.x > 0)
+        {
+            transform.rotation = Quaternion.Euler(0, 0, 0);
+        }
     }
 
     /// <summary>

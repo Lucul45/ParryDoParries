@@ -21,12 +21,12 @@ public class TowerBehavior : MonoBehaviour
             {
                 if (_towerID == 1)
                 {
-                    WinCondition.Instance.P1TowersStanding -= 1;
+                    WinCondition.Instance.P1TowersDestroyed += 1;
                     Destroy(gameObject);
                 }
                 else if (_towerID == 2)
                 {
-                    WinCondition.Instance.P2TowersStanding -= 1;
+                    WinCondition.Instance.P2TowersDestroyed += 1;
                     Destroy(gameObject);
                 }
             }
