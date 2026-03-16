@@ -1,5 +1,5 @@
-# FrameDataTool
-Frame data tool for a fighting game
+# TakeTheTower
+Fighting game in which you need to destroy your opponent's towers
 
 ## My background
 
@@ -7,7 +7,7 @@ I started to be really into programming 3/4 years ago. I learned Unity through a
 
 
 
-## The tool
+## The game
 
 This project is frame data tool for a fighting style game. It contains an on 60 frames seconds update, a frame data UI that show the frames of the current attack and a calculation of the frame advantage of the attacks.
 
