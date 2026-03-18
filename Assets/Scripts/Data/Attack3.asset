@@ -23,5 +23,5 @@ MonoBehaviour:
   _advantageFrames: -10
   _knockbackForce: 7
   _canComboFrames:
-  - {fileID: 21300000, guid: 7476feed19187fc4e83f90eed3310911, type: 3}
-  _endFrame: {fileID: 21300000, guid: 6f0350ba59ff78a479044199019af776, type: 3}
+  - {fileID: 21300000, guid: f84861429c5326242901a713f270e9fc, type: 3}
+  _endFrame: {fileID: 21300000, guid: def8ca23742459c4090e3c7a265f8f8c, type: 3}
