@@ -15,11 +15,13 @@ public class IdleState : APlayerState
         {
             StateFrameP2 = 0;
         }
+        _playerController.JumpPressed += Jump;
         _playerController.AttackPressed += Attack;
     }
 
     public override void Exit()
     {
+        _playerController.JumpPressed -= Jump;
         _playerController.AttackPressed -= Attack;
     }
 
@@ -73,11 +75,29 @@ public class IdleState : APlayerState
                 _stateManager.ChangeStateP1(EPlayerState.MELEE);
             }
         }
-        else
+        else if (_playerController.PlayerID == 2)
         {
             if (_playerController.CanAttack)
             {
                 _stateManager.ChangeStateP2(EPlayerState.MELEE);
+            }
+        }
+    }
+
+    private void Jump()
+    {
+        if (_playerController.PlayerID == 1)
+        {
+            if (_playerController.CanJump && _playerController.IsGrounded)
+            {
+                _stateManager.ChangeStateP1(EPlayerState.JUMP);
+            }
+        }
+        else if (_playerController.PlayerID == 2)
+        {
+            if (_playerController.CanJump && _playerController.IsGrounded)
+            {
+                _stateManager.ChangeStateP2(EPlayerState.JUMP);
             }
         }
     }

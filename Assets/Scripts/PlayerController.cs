@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -10,6 +11,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private int _playerID;
 
     [Header("Refs")]
+    [SerializeField] private GameObject _capsule;
     [SerializeField] private Animator _animator;
     [SerializeField] private Rigidbody2D _rb;
     [SerializeField] private SpriteRenderer _spriteRenderer;
@@ -18,6 +20,10 @@ public class PlayerController : MonoBehaviour
 
     [SerializeField] private float _playerSpeed = 10f;
     private Vector2 _movementInput = Vector2.zero;
+
+    [SerializeField] private float _playerJumpForce = 10f;
+    private bool _canJump = true;
+    private bool _isGrounded = false;
 
     private AttackData _currentAttack = null;
     private bool _canAttack = true;
@@ -58,6 +64,15 @@ public class PlayerController : MonoBehaviour
     public Vector2 MovementInput
     {
         get { return _movementInput; }
+    }
+    public bool CanJump
+    {
+        get { return _canJump; }
+        set { _canJump = value; }
+    }
+    public bool IsGrounded
+    {
+        get { return _isGrounded; }
     }
     public AttackData CurrentAttack
     {
@@ -104,11 +119,43 @@ public class PlayerController : MonoBehaviour
         }
         remove { _attackPressed -= value; }
     }
+    private event Action _jumpPressed = null;
+    public event Action JumpPressed
+    {
+        add
+        {
+            _jumpPressed -= value;
+            _jumpPressed += value;
+        }
+        remove
+        {
+            _jumpPressed -= value;
+        }
+    }
     #endregion Events
+
+    private void FixedUpdate()
+    {
+        RaycastHit2D hit = Physics2D.Raycast(_capsule.transform.position, -_capsule.transform.up, (_capsule.GetComponent<BoxCollider2D>().size.y * 2) + _capsule.GetComponent<BoxCollider2D>().offset.y + 0.2f, 13);
+        Debug.DrawRay(_capsule.transform.position, -_capsule.transform.up, Color.red);
+        //new Vector2(_capsule.transform.position.x, _capsule.transform.position.y - (_capsule.GetComponent<BoxCollider2D>().size.y * 2) + _capsule.GetComponent<BoxCollider2D>().offset.y + -0.2f)
+        if (PlayerID == 1 && hit.transform.gameObject != null)
+        {
+            Debug.Log(true);
+        }
+    }
 
     public void GetMovementInput(InputAction.CallbackContext context)
     {
         _movementInput = context.ReadValue<Vector2>();
+    }
+
+    public void GetJumpInput(InputAction.CallbackContext context)
+    {
+        if (_jumpPressed != null && context.started)
+        {
+            _jumpPressed();
+        }
     }
 
     public void GetAttackInput(InputAction.CallbackContext context)
@@ -134,6 +181,11 @@ public class PlayerController : MonoBehaviour
         {
             transform.rotation = Quaternion.Euler(0, 0, 0);
         }
+    }
+
+    public void Jump()
+    {
+        _rb.velocity = new Vector2(_rb.velocity.x, _playerJumpForce);
     }
 
     /// <summary>

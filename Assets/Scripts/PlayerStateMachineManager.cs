@@ -11,6 +11,7 @@ public enum EPlayerState
 {
     IDLE,
     MOVE,
+    JUMP,
     MELEE,
     HURT,
     DEAD,
@@ -117,6 +118,7 @@ public class PlayerStateMachineManager : Singleton<PlayerStateMachineManager>
         _statesP1 = new Dictionary<EPlayerState, APlayerState>();
         _statesP1.Add(EPlayerState.IDLE, new IdleState());
         _statesP1.Add(EPlayerState.MOVE, new MoveState());
+        _statesP1.Add(EPlayerState.JUMP, new JumpState());
         _statesP1.Add(EPlayerState.MELEE, new MeleeBaseState());
         _statesP1.Add(EPlayerState.HURT, new HurtState());
         _statesP1.Add(EPlayerState.DEAD, new DeadState());
@@ -124,6 +126,7 @@ public class PlayerStateMachineManager : Singleton<PlayerStateMachineManager>
         _statesP2 = new Dictionary<EPlayerState, APlayerState>();
         _statesP2.Add(EPlayerState.IDLE, new IdleState());
         _statesP2.Add(EPlayerState.MOVE, new MoveState());
+        _statesP2.Add(EPlayerState.JUMP, new JumpState());
         _statesP2.Add(EPlayerState.MELEE, new MeleeBaseState());
         _statesP2.Add(EPlayerState.HURT, new HurtState());
         _statesP2.Add(EPlayerState.DEAD, new DeadState());

@@ -1457,7 +1457,7 @@ Transform:
   m_GameObject: {fileID: 519420028}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.00000020861626, y: -1.4999995, z: -12}
+  m_LocalPosition: {x: 0.000000059604645, y: -0.15999961, z: -12}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -5813,11 +5813,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1548162989360856272, guid: a1450121f5fafe24c9c6812f2900ade1, type: 3}
       propertyPath: m_ActionEvents.Array.size
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 1548162989360856272, guid: a1450121f5fafe24c9c6812f2900ade1, type: 3}
       propertyPath: m_NeverAutoSwitchControlSchemes
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1548162989360856272, guid: a1450121f5fafe24c9c6812f2900ade1, type: 3}
+      propertyPath: m_ActionEvents.Array.data[2].m_ActionId
+      value: 932905d4-b8a3-4cd0-867e-5c92f5df33af
       objectReference: {fileID: 0}
     - target: {fileID: 1548162989360856272, guid: a1450121f5fafe24c9c6812f2900ade1, type: 3}
       propertyPath: m_ActionEvents.Array.data[3].m_ActionId
@@ -5830,6 +5834,10 @@ PrefabInstance:
     - target: {fileID: 1548162989360856272, guid: a1450121f5fafe24c9c6812f2900ade1, type: 3}
       propertyPath: m_ActionEvents.Array.data[5].m_ActionId
       value: 6d19fcf3-0572-458a-9e43-756b13f26d25
+      objectReference: {fileID: 0}
+    - target: {fileID: 1548162989360856272, guid: a1450121f5fafe24c9c6812f2900ade1, type: 3}
+      propertyPath: m_ActionEvents.Array.data[2].m_ActionName
+      value: Player/Jump[/Keyboard/space,/DualShock4GamepadHID/buttonSouth]
       objectReference: {fileID: 0}
     - target: {fileID: 1548162989360856272, guid: a1450121f5fafe24c9c6812f2900ade1, type: 3}
       propertyPath: m_ActionEvents.Array.data[3].m_ActionName
@@ -5849,6 +5857,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1548162989360856272, guid: a1450121f5fafe24c9c6812f2900ade1, type: 3}
+      propertyPath: m_ActionEvents.Array.data[2].m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1548162989360856272, guid: a1450121f5fafe24c9c6812f2900ade1, type: 3}
       propertyPath: m_ActionEvents.Array.data[0].m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 569800628}
@@ -5859,7 +5871,7 @@ PrefabInstance:
     - target: {fileID: 1548162989360856272, guid: a1450121f5fafe24c9c6812f2900ade1, type: 3}
       propertyPath: m_ActionEvents.Array.data[2].m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 569800628}
     - target: {fileID: 1548162989360856272, guid: a1450121f5fafe24c9c6812f2900ade1, type: 3}
       propertyPath: m_ActionEvents.Array.data[0].m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: GetMovementInput
@@ -5869,12 +5881,24 @@ PrefabInstance:
       value: GetAttackInput
       objectReference: {fileID: 0}
     - target: {fileID: 1548162989360856272, guid: a1450121f5fafe24c9c6812f2900ade1, type: 3}
+      propertyPath: m_ActionEvents.Array.data[2].m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: GetJumpInput
+      objectReference: {fileID: 0}
+    - target: {fileID: 1548162989360856272, guid: a1450121f5fafe24c9c6812f2900ade1, type: 3}
       propertyPath: m_ActionEvents.Array.data[0].m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
       value: PlayerController, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 1548162989360856272, guid: a1450121f5fafe24c9c6812f2900ade1, type: 3}
       propertyPath: m_ActionEvents.Array.data[1].m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
       value: PlayerController, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 1548162989360856272, guid: a1450121f5fafe24c9c6812f2900ade1, type: 3}
+      propertyPath: m_ActionEvents.Array.data[2].m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: PlayerController, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 1548162989360856272, guid: a1450121f5fafe24c9c6812f2900ade1, type: 3}
+      propertyPath: m_ActionEvents.Array.data[2].m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     - target: {fileID: 1902538222313046845, guid: a1450121f5fafe24c9c6812f2900ade1, type: 3}
       propertyPath: _dashBar
@@ -6257,7 +6281,7 @@ Transform:
   m_GameObject: {fileID: 2117881321}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.000000029802322, y: -1.4999995, z: -12}
+  m_LocalPosition: {x: 0.00000032782555, y: -0.15999913, z: -12}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -6312,7 +6336,7 @@ Transform:
   m_GameObject: {fileID: 2128607189}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -4, z: -2}
+  m_LocalPosition: {x: 0, y: -2.66, z: -2}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -6854,10 +6878,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 2675415683781121876, guid: 2a519c4a7bd60a64298907e3218d1dd0, type: 3}
-      propertyPath: m_Layer
-      value: 12
-      objectReference: {fileID: 0}
     - target: {fileID: 3536385669034769425, guid: 2a519c4a7bd60a64298907e3218d1dd0, type: 3}
       propertyPath: m_LocalPosition.x
       value: 27.8
@@ -6950,7 +6970,7 @@ PrefabInstance:
     - target: {fileID: 37026037613520414, guid: a1450121f5fafe24c9c6812f2900ade1, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: 123be18ebfc262042bce373dd11093bd, type: 3}
+      objectReference: {fileID: 21300000, guid: 86ba7138e276b6b45b9f0986a524cd62, type: 3}
     - target: {fileID: 37026037613520414, guid: a1450121f5fafe24c9c6812f2900ade1, type: 3}
       propertyPath: m_WasSpriteAssigned
       value: 1
@@ -6965,19 +6985,31 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1548162989360856272, guid: a1450121f5fafe24c9c6812f2900ade1, type: 3}
       propertyPath: m_ActionEvents.Array.size
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 1548162989360856272, guid: a1450121f5fafe24c9c6812f2900ade1, type: 3}
       propertyPath: m_NeverAutoSwitchControlSchemes
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1548162989360856272, guid: a1450121f5fafe24c9c6812f2900ade1, type: 3}
+      propertyPath: m_ActionEvents.Array.data[2].m_ActionId
+      value: 932905d4-b8a3-4cd0-867e-5c92f5df33af
+      objectReference: {fileID: 0}
+    - target: {fileID: 1548162989360856272, guid: a1450121f5fafe24c9c6812f2900ade1, type: 3}
       propertyPath: m_ActionEvents.Array.data[4].m_ActionId
       value: 42e66559-a041-411e-8d3b-2d53f86d88c4
       objectReference: {fileID: 0}
     - target: {fileID: 1548162989360856272, guid: a1450121f5fafe24c9c6812f2900ade1, type: 3}
+      propertyPath: m_ActionEvents.Array.data[2].m_ActionName
+      value: Player/Jump[/Keyboard/space,/DualShock4GamepadHID/buttonSouth]
+      objectReference: {fileID: 0}
+    - target: {fileID: 1548162989360856272, guid: a1450121f5fafe24c9c6812f2900ade1, type: 3}
       propertyPath: m_ActionEvents.Array.data[4].m_ActionName
       value: Player/Throw
+      objectReference: {fileID: 0}
+    - target: {fileID: 1548162989360856272, guid: a1450121f5fafe24c9c6812f2900ade1, type: 3}
+      propertyPath: m_ActionEvents.Array.data[2].m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1548162989360856272, guid: a1450121f5fafe24c9c6812f2900ade1, type: 3}
       propertyPath: m_ActionEvents.Array.data[0].m_PersistentCalls.m_Calls.Array.data[0].m_Target
@@ -6990,7 +7022,7 @@ PrefabInstance:
     - target: {fileID: 1548162989360856272, guid: a1450121f5fafe24c9c6812f2900ade1, type: 3}
       propertyPath: m_ActionEvents.Array.data[2].m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 704682588}
     - target: {fileID: 1548162989360856272, guid: a1450121f5fafe24c9c6812f2900ade1, type: 3}
       propertyPath: m_ActionEvents.Array.data[3].m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
@@ -7004,12 +7036,24 @@ PrefabInstance:
       value: GetAttackInput
       objectReference: {fileID: 0}
     - target: {fileID: 1548162989360856272, guid: a1450121f5fafe24c9c6812f2900ade1, type: 3}
+      propertyPath: m_ActionEvents.Array.data[2].m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: GetJumpInput
+      objectReference: {fileID: 0}
+    - target: {fileID: 1548162989360856272, guid: a1450121f5fafe24c9c6812f2900ade1, type: 3}
       propertyPath: m_ActionEvents.Array.data[0].m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
       value: PlayerController, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 1548162989360856272, guid: a1450121f5fafe24c9c6812f2900ade1, type: 3}
       propertyPath: m_ActionEvents.Array.data[1].m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
       value: PlayerController, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 1548162989360856272, guid: a1450121f5fafe24c9c6812f2900ade1, type: 3}
+      propertyPath: m_ActionEvents.Array.data[2].m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: PlayerController, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 1548162989360856272, guid: a1450121f5fafe24c9c6812f2900ade1, type: 3}
+      propertyPath: m_ActionEvents.Array.data[2].m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     - target: {fileID: 1902538222313046845, guid: a1450121f5fafe24c9c6812f2900ade1, type: 3}
       propertyPath: _dashBar
@@ -7073,7 +7117,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6032529101743062088, guid: a1450121f5fafe24c9c6812f2900ade1, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -4
+      value: -1.32
       objectReference: {fileID: 0}
     - target: {fileID: 6032529101743062088, guid: a1450121f5fafe24c9c6812f2900ade1, type: 3}
       propertyPath: m_LocalPosition.z
