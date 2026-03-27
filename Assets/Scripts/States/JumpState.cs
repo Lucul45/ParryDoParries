@@ -45,7 +45,7 @@ public class JumpState : APlayerState
             {
                 _stateManager.ChangeStateP1(EPlayerState.DEAD);
             }
-            if (_playerController.IsGrounded)
+            if (_playerController.IsGrounded())
             {
                 _stateManager.ChangeStateP1(EPlayerState.IDLE);
             }
@@ -57,7 +57,7 @@ public class JumpState : APlayerState
             {
                 _stateManager.ChangeStateP2(EPlayerState.DEAD);
             }
-            if (_playerController.IsGrounded)
+            if (_playerController.IsGrounded())
             {
                 _stateManager.ChangeStateP2(EPlayerState.IDLE);
             }

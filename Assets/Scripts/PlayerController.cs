@@ -21,9 +21,9 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float _playerSpeed = 10f;
     private Vector2 _movementInput = Vector2.zero;
 
+    [SerializeField] private LayerMask _groundLayer;
     [SerializeField] private float _playerJumpForce = 10f;
     private bool _canJump = true;
-    private bool _isGrounded = false;
 
     private AttackData _currentAttack = null;
     private bool _canAttack = true;
@@ -69,10 +69,6 @@ public class PlayerController : MonoBehaviour
     {
         get { return _canJump; }
         set { _canJump = value; }
-    }
-    public bool IsGrounded
-    {
-        get { return _isGrounded; }
     }
     public AttackData CurrentAttack
     {
@@ -134,17 +130,6 @@ public class PlayerController : MonoBehaviour
     }
     #endregion Events
 
-    private void FixedUpdate()
-    {
-        RaycastHit2D hit = Physics2D.Raycast(_capsule.transform.position, -_capsule.transform.up, (_capsule.GetComponent<BoxCollider2D>().size.y * 2) + _capsule.GetComponent<BoxCollider2D>().offset.y + 0.2f, 13);
-        Debug.DrawRay(_capsule.transform.position, -_capsule.transform.up, Color.red);
-        //new Vector2(_capsule.transform.position.x, _capsule.transform.position.y - (_capsule.GetComponent<BoxCollider2D>().size.y * 2) + _capsule.GetComponent<BoxCollider2D>().offset.y + -0.2f)
-        if (PlayerID == 1 && hit.transform.gameObject != null)
-        {
-            Debug.Log(true);
-        }
-    }
-
     public void GetMovementInput(InputAction.CallbackContext context)
     {
         _movementInput = context.ReadValue<Vector2>();
@@ -172,7 +157,7 @@ public class PlayerController : MonoBehaviour
     /// <param name="dir"></param>
     public void Move(Vector2 dir)
     {
-        _rb.velocity = new Vector2(dir.x * _playerSpeed, 0);
+        _rb.velocity = new Vector2(dir.x * _playerSpeed, _rb.velocity.y);
         if (dir.x < 0)
         {
             transform.rotation = Quaternion.Euler(0, 180, 0);
@@ -198,5 +183,21 @@ public class PlayerController : MonoBehaviour
         _animator.SetBool("IsAttacking1", false);
         _animator.SetBool("IsAttacking2", false);
         _animator.SetBool("IsAttacking3", false);
+    }
+
+    /// <summary>
+    /// Checks if the player is grounded
+    /// </summary>
+    /// <returns></returns>
+    public bool IsGrounded()
+    {
+        Bounds bounds = _capsule.GetComponent<BoxCollider2D>().bounds;
+        RaycastHit2D hit = Physics2D.BoxCast(bounds.center, bounds.size, 0, Vector2.down, 0.2f, _groundLayer);
+        // Debug
+        Color rayColor = (hit.collider != null) ? Color.green : Color.red;
+        Debug.DrawRay(bounds.center + new Vector3(bounds.extents.x, 0), Vector2.down * (bounds.extents.y + 0.2f), rayColor);
+        Debug.DrawRay(bounds.center - new Vector3(bounds.extents.x, 0), Vector2.down * (bounds.extents.y + 0.2f), rayColor);
+        Debug.DrawRay(bounds.center - new Vector3(bounds.extents.x, bounds.extents.y + 0.2f), Vector2.right * (bounds.size.x), rayColor);
+        return hit;
     }
 }

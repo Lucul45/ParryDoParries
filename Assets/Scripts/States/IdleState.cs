@@ -88,14 +88,14 @@ public class IdleState : APlayerState
     {
         if (_playerController.PlayerID == 1)
         {
-            if (_playerController.CanJump && _playerController.IsGrounded)
+            if (_playerController.CanJump && _playerController.IsGrounded())
             {
                 _stateManager.ChangeStateP1(EPlayerState.JUMP);
             }
         }
         else if (_playerController.PlayerID == 2)
         {
-            if (_playerController.CanJump && _playerController.IsGrounded)
+            if (_playerController.CanJump && _playerController.IsGrounded())
             {
                 _stateManager.ChangeStateP2(EPlayerState.JUMP);
             }
