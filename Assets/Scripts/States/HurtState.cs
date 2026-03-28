@@ -67,7 +67,7 @@ public class HurtState : APlayerState
                 _stateManager.ChangeStateP1(EPlayerState.DEAD);
             }
             // If the frame on the current is greater or equal than hitstun, then change state to idle
-            if (StateFrameP1 >= (int)(_opponent.CurrentAttack.Clip.length * 60) - _hitAttackFrame + _opponent.CurrentAttack.AdvantageFrames)
+            else if (StateFrameP1 >= (int)(_opponent.CurrentAttack.Clip.length * 60) - _hitAttackFrame + _opponent.CurrentAttack.AdvantageFrames)
             {
                 _stateManager.ChangeStateP1(EPlayerState.IDLE);
             }
@@ -80,10 +80,11 @@ public class HurtState : APlayerState
                 _stateManager.ChangeStateP2(EPlayerState.DEAD);
             }
             // If the frame on the current is greater or equal than hitstun, then change state to idle
-            if (StateFrameP2 >= (int)(_opponent.CurrentAttack.Clip.length * 60) - _hitAttackFrame + _opponent.CurrentAttack.AdvantageFrames)
+            else if (StateFrameP2 >= (int)(_opponent.CurrentAttack.Clip.length * 60) - _hitAttackFrame + _opponent.CurrentAttack.AdvantageFrames)
             {
                 _stateManager.ChangeStateP2(EPlayerState.IDLE);
             }
         }
+        _animator.SetBool("IsGrounded", _playerController.IsGrounded());
     }
 }

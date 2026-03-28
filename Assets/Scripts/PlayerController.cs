@@ -19,6 +19,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private AttackData[] _attacksData;
 
     [SerializeField] private float _playerSpeed = 10f;
+    [SerializeField] private float _playerAirSpeed = 5f;
     private Vector2 _movementInput = Vector2.zero;
 
     [SerializeField] private LayerMask _groundLayer;
@@ -166,6 +167,11 @@ public class PlayerController : MonoBehaviour
         {
             transform.rotation = Quaternion.Euler(0, 0, 0);
         }
+    }
+
+    public void AirMove(Vector2 dir)
+    {
+        _rb.velocity = new Vector2(dir.x * _playerAirSpeed, _rb.velocity.y);
     }
 
     public void Jump()

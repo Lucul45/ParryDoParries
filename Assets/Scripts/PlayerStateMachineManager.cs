@@ -12,7 +12,9 @@ public enum EPlayerState
     IDLE,
     MOVE,
     JUMP,
-    MELEE,
+    AIRBASE,
+    AIRMOVE,
+    JAB,
     HURT,
     DEAD,
     NONE
@@ -119,7 +121,9 @@ public class PlayerStateMachineManager : Singleton<PlayerStateMachineManager>
         _statesP1.Add(EPlayerState.IDLE, new IdleState());
         _statesP1.Add(EPlayerState.MOVE, new MoveState());
         _statesP1.Add(EPlayerState.JUMP, new JumpState());
-        _statesP1.Add(EPlayerState.MELEE, new MeleeBaseState());
+        _statesP1.Add(EPlayerState.AIRBASE, new AirBaseState());
+        _statesP1.Add(EPlayerState.AIRMOVE, new AirMoveState());
+        _statesP1.Add(EPlayerState.JAB, new JabState());
         _statesP1.Add(EPlayerState.HURT, new HurtState());
         _statesP1.Add(EPlayerState.DEAD, new DeadState());
 
@@ -127,7 +131,9 @@ public class PlayerStateMachineManager : Singleton<PlayerStateMachineManager>
         _statesP2.Add(EPlayerState.IDLE, new IdleState());
         _statesP2.Add(EPlayerState.MOVE, new MoveState());
         _statesP2.Add(EPlayerState.JUMP, new JumpState());
-        _statesP2.Add(EPlayerState.MELEE, new MeleeBaseState());
+        _statesP2.Add(EPlayerState.AIRBASE, new AirBaseState());
+        _statesP2.Add(EPlayerState.AIRMOVE, new AirMoveState());
+        _statesP2.Add(EPlayerState.JAB, new JabState());
         _statesP2.Add(EPlayerState.HURT, new HurtState());
         _statesP2.Add(EPlayerState.DEAD, new DeadState());
 
@@ -180,7 +186,7 @@ public class PlayerStateMachineManager : Singleton<PlayerStateMachineManager>
         UnityEngine.Debug.Log("Player 1 : Transition from " + CurrentStateP1 + " To " + nextState);
         CurrentStateP1.Exit();
         _lastStateP1 = _currentStateP1;
-        if (_currentStateP1 == EPlayerState.MELEE && nextState == EPlayerState.IDLE)
+        if (_currentStateP1 == EPlayerState.JAB && nextState == EPlayerState.IDLE)
         {
             _lastAttackToIdleFrameP1 = FrameManager.Instance.ElapsedFrames;
             UnityEngine.Debug.Log($"Player 1 (Attack) -> IDLE à la frame : {_lastAttackToIdleFrameP1}");
@@ -199,7 +205,7 @@ public class PlayerStateMachineManager : Singleton<PlayerStateMachineManager>
         UnityEngine.Debug.Log("Player 2 : Transition from " + CurrentStateP2 + " To " + nextState);
         CurrentStateP2.Exit();
         _lastStateP2 = _currentStateP2;
-        if (_currentStateP2 == EPlayerState.MELEE && nextState == EPlayerState.IDLE)
+        if (_currentStateP2 == EPlayerState.JAB && nextState == EPlayerState.IDLE)
         {
             _lastAttackToIdleFrameP2 = FrameManager.Instance.ElapsedFrames;
             UnityEngine.Debug.Log($"Player 2 (Attack) -> IDLE à la frame : {_lastAttackToIdleFrameP2}");

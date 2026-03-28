@@ -20,7 +20,7 @@ public class FrameDataUI : MonoBehaviour
     // Change the frame data UI
     public void ChangeFrameDataUI()
     {
-        if (_playerStateMachineManager.EnumCurrentStateP1 == EPlayerState.MELEE)
+        if (_playerStateMachineManager.EnumCurrentStateP1 == EPlayerState.JAB)
         {
             // Simply get the current attack data and show it in UI
             if (_p1.CurrentAttack != null)

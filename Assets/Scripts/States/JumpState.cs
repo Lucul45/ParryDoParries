@@ -45,9 +45,9 @@ public class JumpState : APlayerState
             {
                 _stateManager.ChangeStateP1(EPlayerState.DEAD);
             }
-            if (_playerController.IsGrounded())
+            else if (!_playerController.IsGrounded())
             {
-                _stateManager.ChangeStateP1(EPlayerState.IDLE);
+                _stateManager.ChangeStateP1(EPlayerState.AIRBASE);
             }
         }
         else if (_playerController.PlayerID == 2)
@@ -57,10 +57,11 @@ public class JumpState : APlayerState
             {
                 _stateManager.ChangeStateP2(EPlayerState.DEAD);
             }
-            if (_playerController.IsGrounded())
+            else if (!_playerController.IsGrounded())
             {
-                _stateManager.ChangeStateP2(EPlayerState.IDLE);
+                _stateManager.ChangeStateP2(EPlayerState.AIRBASE);
             }
         }
+        _animator.SetBool("IsGrounded", _playerController.IsGrounded());
     }
 }

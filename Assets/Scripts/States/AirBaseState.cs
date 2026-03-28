@@ -1,9 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Diagnostics;
 using UnityEngine;
 
-public class MoveState : APlayerState
+public class AirBaseState : APlayerState
 {
     public override void Enter()
     {
@@ -15,14 +14,11 @@ public class MoveState : APlayerState
         {
             StateFrameP2 = 0;
         }
-        _playerController.JumpPressed += Jump;
-        _playerController.AttackPressed += Attack;
     }
 
     public override void Exit()
     {
-        _playerController.JumpPressed -= Jump;
-        _playerController.AttackPressed -= Attack;
+        
     }
 
     public override void Init(PlayerController opponent, PlayerStateMachineManager stateManager, Animator animator, SpriteRenderer spriteRenderer, Rigidbody2D rb, PlayerController playerController, PlayerHealth playerHealth)
@@ -45,10 +41,13 @@ public class MoveState : APlayerState
             {
                 _stateManager.ChangeStateP1(EPlayerState.DEAD);
             }
-            // if we don't move, change to idle
-            else if (_playerController.MovementInput.x == 0)
+            else if (_playerController.IsGrounded())
             {
                 _stateManager.ChangeStateP1(EPlayerState.IDLE);
+            }
+            else if (_playerController.MovementInput != Vector2.zero && _stateManager.EnumCurrentStateP1 != EPlayerState.AIRMOVE)
+            {
+                _stateManager.ChangeStateP1(EPlayerState.AIRMOVE);
             }
         }
         else if (_playerController.PlayerID == 2)
@@ -58,46 +57,15 @@ public class MoveState : APlayerState
             {
                 _stateManager.ChangeStateP2(EPlayerState.DEAD);
             }
-            // if we don't move, change to idle
-            else if (_playerController.MovementInput.x == 0)
+            else if (_playerController.IsGrounded())
             {
                 _stateManager.ChangeStateP2(EPlayerState.IDLE);
             }
+            else if (_playerController.MovementInput != Vector2.zero && _stateManager.EnumCurrentStateP2 != EPlayerState.AIRMOVE)
+            {
+                _stateManager.ChangeStateP2(EPlayerState.AIRMOVE);
+            }
         }
         _animator.SetBool("IsGrounded", _playerController.IsGrounded());
-        _playerController.Move(_playerController.MovementInput);
-    }
-
-    private void Attack()
-    {
-        if (_playerController.CanAttack)
-        {
-            if (_playerController.PlayerID == 1)
-            {
-                _stateManager.ChangeStateP1(EPlayerState.JAB);
-            }
-            else if (_playerController.PlayerID == 2)
-            {
-                _stateManager.ChangeStateP2(EPlayerState.JAB);
-            }
-        }
-    }
-
-    private void Jump()
-    {
-        if (_playerController.PlayerID == 1)
-        {
-            if (_playerController.CanJump && _playerController.IsGrounded())
-            {
-                _stateManager.ChangeStateP1(EPlayerState.JUMP);
-            }
-        }
-        else if (_playerController.PlayerID == 2)
-        {
-            if (_playerController.CanJump && _playerController.IsGrounded())
-            {
-                _stateManager.ChangeStateP2(EPlayerState.JUMP);
-            }
-        }
     }
 }

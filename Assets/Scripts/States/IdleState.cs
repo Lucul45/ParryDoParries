@@ -46,7 +46,7 @@ public class IdleState : APlayerState
                 _stateManager.ChangeStateP1(EPlayerState.DEAD);
             }
             // If the input isn't neutral
-            if (_playerController.MovementInput.x != 0f)
+            else if (_playerController.MovementInput.x != 0f)
             {
                 _stateManager.ChangeStateP1(EPlayerState.MOVE);
             }
@@ -59,11 +59,12 @@ public class IdleState : APlayerState
                 _stateManager.ChangeStateP2(EPlayerState.DEAD);
             }
             // If the input isn't neutral
-            if (_playerController.MovementInput.x != 0f)
+            else if (_playerController.MovementInput.x != 0f)
             {
                 _stateManager.ChangeStateP2(EPlayerState.MOVE);
             }
         }
+        _animator.SetBool("IsGrounded", _playerController.IsGrounded());
     }
 
     private void Attack()
@@ -72,14 +73,14 @@ public class IdleState : APlayerState
         {
             if (_playerController.CanAttack)
             {
-                _stateManager.ChangeStateP1(EPlayerState.MELEE);
+                _stateManager.ChangeStateP1(EPlayerState.JAB);
             }
         }
         else if (_playerController.PlayerID == 2)
         {
             if (_playerController.CanAttack)
             {
-                _stateManager.ChangeStateP2(EPlayerState.MELEE);
+                _stateManager.ChangeStateP2(EPlayerState.JAB);
             }
         }
     }

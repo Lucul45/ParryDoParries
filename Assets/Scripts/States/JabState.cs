@@ -5,7 +5,7 @@ using System.Diagnostics;
 using System.Linq;
 using UnityEngine;
 
-public class MeleeBaseState : APlayerState
+public class JabState : APlayerState
 {
     public override void Enter()
     {
@@ -106,11 +106,11 @@ public class MeleeBaseState : APlayerState
             _playerController.AttackIndex++;
             if (_playerController.PlayerID == 1)
             {
-                _stateManager.ChangeStateP1(EPlayerState.MELEE);
+                _stateManager.ChangeStateP1(EPlayerState.JAB);
             }
             else
             {
-                _stateManager.ChangeStateP2(EPlayerState.MELEE);
+                _stateManager.ChangeStateP2(EPlayerState.JAB);
             }
         }
     }
