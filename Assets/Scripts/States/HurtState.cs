@@ -28,17 +28,12 @@ public class HurtState : APlayerState
         FrameManager.Instance.FrameDataUI.ResetAdvantageCalculated();
         _playerController.ResetCombo();
         _animator.SetBool("IsHurt", true);
-        // Take damage
-        _playerHealth.TakeDamage(_opponent.CurrentAttack.AttackDamage);
+
+        // Take damage and knockback
+        _playerController.TakeHit(_opponent.CurrentAttack, _opponent.transform.position.x, _playerController.MovementInput);
+
         // Freeze the screen a few time to make the hits seem more impactful
-        if (_playerHealth.CurrentHealth <= 0)
-        {
-            FreezeFrameManager.Instance.StartCoroutine(FreezeFrameManager.Instance.Freeze(0.5f));
-        }
-        else
-        {
-            FreezeFrameManager.Instance.StartCoroutine(FreezeFrameManager.Instance.Freeze(0.2f));
-        }
+        FreezeFrameManager.Instance.StartCoroutine(FreezeFrameManager.Instance.Freeze(0.2f));
     }
 
     public override void Exit()

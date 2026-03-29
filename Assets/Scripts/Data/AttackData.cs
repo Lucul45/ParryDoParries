@@ -6,15 +6,21 @@ using UnityEngine;
 public class AttackData : ScriptableObject
 {
     [SerializeField] private int _attackID;
+
     [SerializeField] private AnimationClip _clip;
     [SerializeField] private string _animationName;
     [SerializeField] private string _animatorCondition;
+
     [SerializeField] private int _attackDamage;
     [SerializeField] private int _attackTotalTime;
     [SerializeField] private int _attackStartup;
     [SerializeField] private int _attackCooldown;
     [SerializeField] private float _advantageFrames;
+
+    [Header("Knockback Settings")]
     [SerializeField] private float _knockbackForce;
+    [SerializeField] private Vector2 _knockbackDirection = new Vector2(1, 1);
+
     [SerializeField] private Sprite[] _canComboFrames;
     [SerializeField] private Sprite _endFrame;
 
@@ -57,6 +63,10 @@ public class AttackData : ScriptableObject
     public float KnockbackForce
     {
         get { return _knockbackForce; }
+    }
+    public Vector2 KnockbackDirection
+    {
+        get { return _knockbackDirection.normalized; }
     }
     public Sprite[] CanComboFrames
     {

@@ -18,6 +18,7 @@ public class DeadState : APlayerState
             PhysicsCollisions.Instance.DeadCollisionsP2();
         }
         _animator.SetBool("IsDead", true);
+        FreezeFrameManager.Instance.StartCoroutine(FreezeFrameManager.Instance.Freeze(0.5f));
     }
 
     public override void Exit()

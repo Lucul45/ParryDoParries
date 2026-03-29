@@ -34,6 +34,10 @@ public class AirBaseState : APlayerState
 
     public override void Update()
     {
+        if (Mathf.Abs(_playerController.MovementInput.x) <= 0.1f)
+        {
+            _playerController.AirFriction();
+        }
         // if the player inputs down at the moment the character is at the top of its jump or less then you can fast fall
         if (_playerController.IsFastFalling)
         {

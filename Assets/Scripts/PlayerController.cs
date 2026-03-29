@@ -18,15 +18,25 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private PlayerHealth _playerHealth;
     [SerializeField] private AttackData[] _attacksData;
 
-    [Header("Controller Settings")]
-    [SerializeField] private float _flickThreshold = -0.7f; // Seuil pour valider le bas
-    [SerializeField] private float _neutralZone = -0.2f;   // Seuil pour considérer le stick au centre
-
+    [Header("Movement Settings")]
     [SerializeField] private float _playerSpeed = 10f;
-    [SerializeField] private float _playerAirForce = 50f;
     [SerializeField] private float _fallMultiplier = 10f;
     private Vector2 _movementInput = Vector2.zero;
 
+    [Header("Air Physics (Smash Style)")]
+    [SerializeField] private float _playerAirForce = 30f; // acceleration in the air
+    [SerializeField] private float _maxAirSpeed = 8f;     // max horizontal air speed
+    [SerializeField] private float _airFriction = 5f;     // Friction when no input
+
+    [Header("Directional Influence")]
+    [SerializeField] private float _maxDIAngle = 18f; // max deviation in degrees
+
+    [Header("Wall Bounce Settings")]
+    [SerializeField] private float _minBounceVelocity = 5f; // Vitesse minimum pour rebondir
+    [SerializeField] private float _bounciness = 0.8f;      // 1 = garde toute sa vitesse, 0.5 = perd la moitié
+    [SerializeField] private LayerMask _wallLayer;          // Pour être sûr de ne rebondir que sur les murs
+
+    [Header("Jump Settings")]
     [SerializeField] private LayerMask _groundLayer;
     [SerializeField] private float _shortHopForce = 5f;
     [SerializeField] private float _fullHopForce = 10f;
@@ -35,8 +45,7 @@ public class PlayerController : MonoBehaviour
     private uint _jumpPressedOnFrame = 0;
     private uint _jumpReleasedOnFrame = 0;
     private bool _isFastFalling = false;
-    private bool _isDownPressedThisFrame = false;
-    private float _previousYInput = 0f;
+    private bool _fastFallInput = false;
 
     private AttackData _currentAttack = null;
     private bool _canAttack = true;
@@ -92,10 +101,6 @@ public class PlayerController : MonoBehaviour
     {
         get { return _isFastFalling; }
         set { _isFastFalling = value; }
-    }
-    public bool IsDownPressedThisFrame
-    {
-        get { return _isDownPressedThisFrame; }
     }
     public AttackData CurrentAttack
     {
@@ -159,21 +164,7 @@ public class PlayerController : MonoBehaviour
 
     public void GetMovementInput(InputAction.CallbackContext context)
     {
-        Vector2 currentInput = context.ReadValue<Vector2>();
-
-        // DETECTION DU FLICK ADAPTÉE
-        // On vérifie si le stick était "au dessus de la zone neutre" 
-        // et qu'il vient de "plonger" sous le seuil de flick
-        if (_previousYInput > _neutralZone && currentInput.y <= _flickThreshold)
-        {
-            if (!IsGrounded() && _rb.velocity.y <= 1f)
-            {
-                IsFastFalling = true;
-            }
-        }
-
-        _previousYInput = currentInput.y;
-        _movementInput = currentInput;
+        _movementInput = context.ReadValue<Vector2>();
     }
 
     public void GetJumpInput(InputAction.CallbackContext context)
@@ -198,6 +189,57 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    public void GetFastFallInput(InputAction.CallbackContext context)
+    {
+        EPlayerState currentState = EPlayerState.NONE;
+        if (context.started)
+        {
+            _fastFallInput = true;
+        }
+        else
+        {
+            _fastFallInput = false;
+        }
+        if (PlayerID == 1)
+        {
+            currentState = PlayerStateMachineManager.Instance.EnumCurrentStateP1;
+        }
+        else if (PlayerID == 2)
+        {
+            currentState = PlayerStateMachineManager.Instance.EnumCurrentStateP2;
+        }
+        if (!IsGrounded() && _rb.velocity.y <= 0.5f && _fastFallInput && currentState != EPlayerState.HURT && currentState != EPlayerState.DEAD)
+        {
+            _isFastFalling = true;
+        }
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        EPlayerState currentState = EPlayerState.NONE;
+        if (PlayerID == 1) 
+            currentState = PlayerStateMachineManager.Instance.EnumCurrentStateP1;
+        else if (PlayerID == 2) 
+            currentState = PlayerStateMachineManager.Instance.EnumCurrentStateP2;
+
+        // 1. Vérification du Layer et de l'état
+        if (((1 << collision.gameObject.layer) & _wallLayer) != 0 && currentState == EPlayerState.HURT)
+        {
+            // 2. On utilise relativeVelocity pour avoir la vitesse réelle de l'impact
+            // On prend la magnitude (longueur du vecteur) pour tester la force
+            float impactSpeed = collision.relativeVelocity.magnitude;
+
+            if (impactSpeed > _minBounceVelocity)
+            {
+                // On récupère la normale pour le rebond
+                Vector2 normal = collision.contacts[0].normal;
+
+                // On passe la vitesse d'impact à Bounce pour reconstruire le vecteur
+                Bounce(normal, collision.relativeVelocity);
+            }
+        }
+    }
+
     /// <summary>
     /// Move the character based on a vector2 input. Also makes the character faced the right direction
     /// </summary>
@@ -218,6 +260,22 @@ public class PlayerController : MonoBehaviour
     public void AirMove(Vector2 dir)
     {
         _rb.AddForce(new Vector2(dir.x * _playerAirForce, 0), ForceMode2D.Force);
+
+        // Limits the horizontal max speed
+        if (Mathf.Abs(_rb.velocity.x) > _maxAirSpeed)
+        {
+            float cappedX = Mathf.Sign(_rb.velocity.x) * _maxAirSpeed;
+            _rb.velocity = new Vector2(cappedX, _rb.velocity.y);
+        }
+    }
+
+    /// <summary>
+    /// Apply friction on the player
+    /// </summary>
+    public void AirFriction()
+    {
+        float frictionX = Mathf.MoveTowards(_rb.velocity.x, 0, _airFriction * Time.deltaTime);
+        _rb.velocity = new Vector2(frictionX, _rb.velocity.y);
     }
 
     public void Jump(bool isFullHop)
@@ -236,7 +294,7 @@ public class PlayerController : MonoBehaviour
 
     public void FastFall()
     {
-        _rb.AddForce(Vector2.down * _fallMultiplier, ForceMode2D.Impulse);
+        _rb.velocity = new Vector2(_rb.velocity.x, -1 * _fallMultiplier);
     }
 
     /// <summary>
@@ -270,5 +328,75 @@ public class PlayerController : MonoBehaviour
     public bool IsFullHopping()
     {
         return _jumpReleasedOnFrame - _jumpPressedOnFrame >= 5;
+    }
+
+    public void ApplyKnockback(Vector2 baseKnockback, Vector2 currentInput)
+    {
+        // If there is no input, apply normal knockback
+        if (currentInput.sqrMagnitude < 0.1f)
+        {
+            _rb.velocity = baseKnockback;
+            return;
+        }
+
+        // We get the angles in degrees
+        float baseAngle = Mathf.Atan2(baseKnockback.y, baseKnockback.x) * Mathf.Rad2Deg;
+        float inputAngle = Mathf.Atan2(currentInput.y, currentInput.x) * Mathf.Rad2Deg;
+
+        // We find the difference between the hit angle and the input angle
+        float angleDifference = Mathf.DeltaAngle(baseAngle, inputAngle);
+ 
+        // The sinus is at his max (1, -1) when the angles are perpendicular and at  0 we there are parallel
+        float diMultiplier = Mathf.Sin(angleDifference * Mathf.Deg2Rad);
+
+        float finalAngle = baseAngle + (_maxDIAngle * diMultiplier);
+
+        // We recreate the vector (different angle, same force)
+        float knockbackForce = baseKnockback.magnitude;
+        Vector2 finalKnockback = new Vector2(Mathf.Cos(finalAngle * Mathf.Deg2Rad), Mathf.Sin(finalAngle * Mathf.Deg2Rad)) * knockbackForce;
+
+        _rb.velocity = finalKnockback;
+    }
+
+    public void TakeHit(AttackData attackTaken, float attackerPosX, Vector2 currentInput)
+    {
+        _playerHealth.TakeDamage(attackTaken.AttackDamage);
+
+        // Calculate the direction of the impact (mirrored or not)
+        float hitDirection = (transform.position.x > attackerPosX) ? 1f : -1f;
+
+        // We create the final direction, mirrored or not
+        Vector2 finalDirection = new Vector2(attackTaken.KnockbackDirection.x * hitDirection, attackTaken.KnockbackDirection.y);
+
+        // We multiply the direction by the force
+        Vector2 finalKnockbackVector = finalDirection * attackTaken.KnockbackForce;
+
+        ApplyKnockback(finalKnockbackVector, currentInput);
+
+        IsFastFalling = false;
+    }
+
+    public void ReverseRotation()
+    {
+        if (transform.rotation.y == 0)
+        {
+            transform.rotation = Quaternion.Euler(0, 180, 0);
+        }
+        else if (transform.rotation.y == 180)
+        {
+            transform.rotation = Quaternion.Euler(0, 0, 0);
+        }
+    }
+
+    private void Bounce(Vector2 wallNormal, Vector2 incomingVelocity)
+    {
+        // Calcul de la réflexion basée sur la vitesse avant impact
+        Vector2 reflectedVelocity = Vector2.Reflect(incomingVelocity, wallNormal);
+
+        // On applique le rebond (on inverse car relativeVelocity est opposée à notre mouvement)
+        _rb.velocity = -reflectedVelocity * _bounciness;
+
+        ReverseRotation();
+        Debug.Log("BOUNCE REUSSI !");
     }
 }
