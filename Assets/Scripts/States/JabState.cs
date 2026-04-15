@@ -45,7 +45,6 @@ public class JabState : APlayerState
     public override void Update()
     {
         base.Update();
-        UnityEngine.Debug.Log(_playerController.CurrentAttack.Clip.length * 60);
         if (_playerHealth.CurrentHealth <= 0)
         {
             _stateManager.ChangeState(_playerController.PlayerID, EPlayerState.DEAD);

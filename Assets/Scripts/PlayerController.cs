@@ -35,15 +35,19 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float _minBounceVelocity = 5f; // Vitesse minimum pour rebondir
     [SerializeField] private float _bounciness = 0.8f;      // 1 = garde toute sa vitesse, 0.5 = perd la moitié
     [SerializeField] private LayerMask _wallLayer;          // Pour être sûr de ne rebondir que sur les murs
+    private bool _isNextToWall = false;
 
     [Header("Jump Settings")]
     [SerializeField] private LayerMask _groundLayer;
     [SerializeField] private float _shortHopForce = 5f;
     [SerializeField] private float _fullHopForce = 10f;
+    [SerializeField] private float _doubleJumpForce = 7f;
     private bool _canJump = true;
     private bool _isFullHop = false;
     private uint _jumpPressedOnFrame = 0;
     private uint _jumpReleasedOnFrame = 0;
+    [SerializeField] private bool _canDoubleJump = true;
+
     private bool _isFastFalling = false;
     private bool _fastFallInput = false;
 
@@ -87,6 +91,18 @@ public class PlayerController : MonoBehaviour
     {
         get { return _movementInput; }
     }
+    public float ShortHopForce
+    {
+        get { return _shortHopForce; }
+    }
+    public float FullHopForce
+    {
+        get { return _fullHopForce; }
+    }
+    public float DoubleJumpForce
+    {
+        get { return _doubleJumpForce; }
+    }
     public bool CanJump
     {
         get { return _canJump; }
@@ -96,6 +112,11 @@ public class PlayerController : MonoBehaviour
     {
         get { return _isFullHop; }
         set { _isFullHop = value; }
+    }
+    public bool CanDoubleJump
+    {
+        get { return _canDoubleJump; }
+        set { _canDoubleJump = value; }
     }
     public bool IsFastFalling
     {
@@ -216,6 +237,11 @@ public class PlayerController : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
+        // checks if you are next to a wall and makes sure you bounce only once if you are next to one
+        if (((1 << collision.gameObject.layer) & _wallLayer) != 0)
+        {
+            _isNextToWall = true;
+        }
         EPlayerState currentState = EPlayerState.NONE;
         if (PlayerID == 1) 
             currentState = PlayerStateMachineManager.Instance.EnumCurrentStateP1;
@@ -236,8 +262,51 @@ public class PlayerController : MonoBehaviour
 
                 // On passe la vitesse d'impact à Bounce pour reconstruire le vecteur
                 Bounce(normal, collision.relativeVelocity);
+                _isNextToWall = false;
             }
         }
+    }
+
+    private void OnCollisionExit2D(Collision2D collision)
+    {
+        // checks if you are next to a wall and makes sure you bounce only once if you are next to one
+        if (((1 << collision.gameObject.layer) & _wallLayer) != 0)
+        {
+            _isNextToWall = false;
+        }
+    }
+
+    private void OnCollisionStay2D(Collision2D collision)
+    {
+        // checks if you are next to a wall and makes sure you bounce only once if you are next to one
+        if (_isNextToWall)
+        {
+            EPlayerState currentState = EPlayerState.NONE;
+            if (PlayerID == 1)
+                currentState = PlayerStateMachineManager.Instance.EnumCurrentStateP1;
+            else if (PlayerID == 2)
+                currentState = PlayerStateMachineManager.Instance.EnumCurrentStateP2;
+
+            // 1. Vérification du Layer et de l'état
+            if (((1 << collision.gameObject.layer) & _wallLayer) != 0 && currentState == EPlayerState.HURT)
+            {
+                Debug.Log("bounce");
+                // 2. On utilise relativeVelocity pour avoir la vitesse réelle de l'impact
+                // On prend la magnitude (longueur du vecteur) pour tester la force
+                float impactSpeed = collision.relativeVelocity.magnitude;
+
+                if (impactSpeed > _minBounceVelocity)
+                {
+                    // On récupère la normale pour le rebond
+                    Vector2 normal = collision.contacts[0].normal;
+
+                    // On passe la vitesse d'impact à Bounce pour reconstruire le vecteur
+                    Bounce(normal, collision.relativeVelocity);
+                    _isNextToWall = false;
+                }
+            }
+        }
+        
     }
 
     /// <summary>
@@ -278,17 +347,14 @@ public class PlayerController : MonoBehaviour
         _rb.velocity = new Vector2(frictionX, _rb.velocity.y);
     }
 
-    public void Jump(bool isFullHop)
+    public void Jump(float jumpForce)
     {
-        float jumpForce = 0;
-        if (isFullHop)
-        {
-            jumpForce = _fullHopForce;
-        }
-        else
-        {
-            jumpForce = _shortHopForce;
-        }
+        _rb.AddForce(new Vector2(0, Vector2.up.y * jumpForce), ForceMode2D.Impulse);
+    }
+
+    public void DoubleJump(float jumpForce)
+    {
+        _rb.velocity = new Vector2(_rb.velocity.x, 0);
         _rb.AddForce(new Vector2(0, Vector2.up.y * jumpForce), ForceMode2D.Impulse);
     }
 

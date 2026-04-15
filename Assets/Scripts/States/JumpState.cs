@@ -8,7 +8,14 @@ public class JumpState : APlayerState
     {
         base.Enter();
         _playerController.CanJump = false;
-        _playerController.Jump(_playerController.IsFullHop);
+        if (_playerController.IsFullHop)
+        {
+            _playerController.Jump(_playerController.FullHopForce);
+        }
+        else
+        {
+            _playerController.Jump(_playerController.ShortHopForce);
+        }
         _animator.SetBool("IsJumping", true);
     }
 

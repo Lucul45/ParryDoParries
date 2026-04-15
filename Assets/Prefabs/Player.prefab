@@ -302,6 +302,7 @@ MonoBehaviour:
     m_Bits: 8192
   _shortHopForce: 20
   _fullHopForce: 30
+  _doubleJumpForce: 25
 --- !u!1 &7770802639889903698
 GameObject:
   m_ObjectHideFlags: 0

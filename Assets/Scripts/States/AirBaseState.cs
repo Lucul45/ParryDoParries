@@ -7,11 +7,12 @@ public class AirBaseState : APlayerState
     public override void Enter()
     {
         base.Enter();
+        _playerController.JumpPressed += DoubleJump;
     }
 
     public override void Exit()
     {
-        
+        _playerController.JumpPressed -= DoubleJump;
     }
 
     public override void Init(PlayerController opponent, PlayerStateMachineManager stateManager, Animator animator, SpriteRenderer spriteRenderer, Rigidbody2D rb, PlayerController playerController, PlayerHealth playerHealth)
@@ -27,6 +28,7 @@ public class AirBaseState : APlayerState
 
     public override void Update()
     {
+        base.Update();
         if (Mathf.Abs(_playerController.MovementInput.x) <= 0.1f)
         {
             _playerController.AirFriction();
@@ -50,5 +52,13 @@ public class AirBaseState : APlayerState
             _stateManager.ChangeState(_playerController.PlayerID, EPlayerState.AIRMOVE);
         }
         _animator.SetBool("IsGrounded", _playerController.IsGrounded());
+    }
+
+    private void DoubleJump()
+    {
+        if (_playerController.CanDoubleJump)
+        {
+            _stateManager.ChangeState(_playerController.PlayerID, EPlayerState.AIRJUMP);
+        }
     }
 }

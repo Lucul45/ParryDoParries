@@ -21,6 +21,6 @@ MonoBehaviour:
   _attackStartup: 6
   _attackRecovery: 3
   _advantageFrames: 10
-  _knockbackForce: 1
+  _knockbackForce: 50
   _knockbackDirection: {x: 1, y: 1}
   _canComboFrames: 080000000c000000

@@ -10,6 +10,7 @@ public class IdleState : APlayerState
         base.Enter();
         _playerController.JumpPressed += Jump;
         _playerController.AttackPressed += Attack;
+        _playerController.CanDoubleJump = true;
     }
 
     public override void Exit()
