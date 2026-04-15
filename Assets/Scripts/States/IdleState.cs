@@ -40,7 +40,7 @@ public class IdleState : APlayerState
         // If the input isn't neutral
         else if (_playerController.MovementInput.x != 0f)
         {
-            _stateManager.ChangeState(_playerController.PlayerID, EPlayerState.MOVE);
+            _stateManager.ChangeState(_playerController.PlayerID, EPlayerState.GROUNDSTART);
         }
         else if (!_playerController.IsGrounded())
         {

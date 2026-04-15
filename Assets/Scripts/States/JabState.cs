@@ -50,7 +50,7 @@ public class JabState : APlayerState
             _stateManager.ChangeState(_playerController.PlayerID, EPlayerState.DEAD);
         }
         // Making sure the character can't move while attacking
-        _playerController.Move(Vector2.zero);
+        _playerController.Walk(Vector2.zero);
         // If the character attack is on a frame where he can combo
         if (StateFrame >= _playerController.CurrentAttack.CanComboFrames[0] && StateFrame <= _playerController.CurrentAttack.CanComboFrames[1])
         {

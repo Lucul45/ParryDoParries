@@ -111,6 +111,17 @@
                 },
                 {
                     "name": "",
+                    "id": "7d74f24c-a026-4590-949e-f866df58d796",
+                    "path": "<HID::mayflash limited MAYFLASH GameCube Controller Adapter>/stick",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "GC controller",
+                    "action": "Movement",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "a4bf2b9f-c45f-416d-8b03-248c4efc59fa",
                     "path": "<Keyboard>/j",
                     "interactions": "",
@@ -127,6 +138,17 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "Controller",
+                    "action": "Attack",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "2de28202-18e3-4d12-ae4c-8eb7fe38066c",
+                    "path": "<HID::mayflash limited MAYFLASH GameCube Controller Adapter>/button2",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "GC controller",
                     "action": "Attack",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -155,6 +177,17 @@
                 },
                 {
                     "name": "",
+                    "id": "1221de86-f576-463c-bc66-f4cbe012a4d7",
+                    "path": "<HID::mayflash limited MAYFLASH GameCube Controller Adapter>/trigger",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "GC controller",
+                    "action": "Jump",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "7ee00bae-5274-437d-831a-ef97a73922e1",
                     "path": "<Keyboard>/s",
                     "interactions": "",
@@ -171,6 +204,17 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "Controller",
+                    "action": "FastFall",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "54c0293d-bf59-45eb-bc33-0478bba51dd6",
+                    "path": "<HID::mayflash limited MAYFLASH GameCube Controller Adapter>/stick/down",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "GC controller",
                     "action": "FastFall",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -202,6 +246,17 @@
                 {
                     "devicePath": "<Joystick>",
                     "isOptional": true,
+                    "isOR": false
+                }
+            ]
+        },
+        {
+            "name": "GC controller",
+            "bindingGroup": "GC controller",
+            "devices": [
+                {
+                    "devicePath": "<HID::mayflash limited MAYFLASH GameCube Controller Adapter>",
+                    "isOptional": false,
                     "isOR": false
                 }
             ]

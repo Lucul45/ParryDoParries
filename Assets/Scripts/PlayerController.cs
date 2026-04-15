@@ -19,9 +19,15 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private AttackData[] _attacksData;
 
     [Header("Movement Settings")]
-    [SerializeField] private float _playerSpeed = 10f;
+    [SerializeField] private float _walkSpeed = 7f;
+    [SerializeField] private float _runSpeed = 10f;
+    [SerializeField] private float _dashSpeed = 20f;
     [SerializeField] private float _fallMultiplier = 10f;
     private Vector2 _movementInput = Vector2.zero;
+    /// <summary>
+    /// value that store a movement input to be later compared with the current movement input
+    /// </summary>
+    private Vector2 _tempMovementInput = Vector2.zero;
 
     [Header("Air Physics (Smash Style)")]
     [SerializeField] private float _playerAirForce = 30f; // acceleration in the air
@@ -90,6 +96,11 @@ public class PlayerController : MonoBehaviour
     public Vector2 MovementInput
     {
         get { return _movementInput; }
+    }
+    public Vector2 TempMovementInput
+    {
+        get { return _tempMovementInput; }
+        set { _tempMovementInput = value; }
     }
     public float ShortHopForce
     {
@@ -290,7 +301,6 @@ public class PlayerController : MonoBehaviour
             // 1. Vérification du Layer et de l'état
             if (((1 << collision.gameObject.layer) & _wallLayer) != 0 && currentState == EPlayerState.HURT)
             {
-                Debug.Log("bounce");
                 // 2. On utilise relativeVelocity pour avoir la vitesse réelle de l'impact
                 // On prend la magnitude (longueur du vecteur) pour tester la force
                 float impactSpeed = collision.relativeVelocity.magnitude;
@@ -313,9 +323,9 @@ public class PlayerController : MonoBehaviour
     /// Move the character based on a vector2 input. Also makes the character faced the right direction
     /// </summary>
     /// <param name="dir"></param>
-    public void Move(Vector2 dir)
+    public void Walk(Vector2 dir)
     {
-        _rb.velocity = new Vector2(dir.x * _playerSpeed, _rb.velocity.y);
+        _rb.velocity = new Vector2(dir.x * _walkSpeed, _rb.velocity.y);
         if (dir.x < 0)
         {
             transform.rotation = Quaternion.Euler(0, 180, 0);
@@ -324,6 +334,16 @@ public class PlayerController : MonoBehaviour
         {
             transform.rotation = Quaternion.Euler(0, 0, 0);
         }
+    }
+
+    public void Run(Vector2 dir)
+    {
+        _rb.velocity = new Vector2(dir.x * _runSpeed, _rb.velocity.y);
+    }
+
+    public void Dash(Vector2 dir)
+    {
+        _rb.velocity = new Vector2(dir.x * _dashSpeed, _rb.velocity.y);
     }
 
     public void AirMove(Vector2 dir)

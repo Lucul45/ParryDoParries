@@ -3,11 +3,12 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using UnityEngine;
 
-public class MoveState : APlayerState
+public class WalkState : APlayerState
 {
     public override void Enter()
     {
         base.Enter();
+
         _playerController.JumpPressed += Jump;
         _playerController.AttackPressed += Attack;
     }
@@ -31,6 +32,8 @@ public class MoveState : APlayerState
 
     public override void Update()
     {
+        base.Update();
+
         if (_playerHealth.CurrentHealth <= 0)
         {
             _stateManager.ChangeState(_playerController.PlayerID, EPlayerState.DEAD);
@@ -41,7 +44,7 @@ public class MoveState : APlayerState
             _stateManager.ChangeState(_playerController.PlayerID, EPlayerState.IDLE);
         }
         _animator.SetBool("IsGrounded", _playerController.IsGrounded());
-        _playerController.Move(_playerController.MovementInput);
+        _playerController.Walk(_playerController.MovementInput);
     }
 
     private void Attack()
