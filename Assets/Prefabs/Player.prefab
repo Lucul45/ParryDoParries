@@ -286,7 +286,9 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 92e91e8ad5cf16e429e3469e55cc9303, type: 2}
   - {fileID: 11400000, guid: e434ac1d6181a0944836db519a03c621, type: 2}
   - {fileID: 11400000, guid: bb0cbbcfd07077a49afa4124532183c7, type: 2}
-  _playerSpeed: 10
+  _walkSpeed: 7
+  _runSpeed: 10
+  _dashForce: 15
   _fallMultiplier: 40
   _playerAirForce: 50
   _maxAirSpeed: 10
@@ -303,6 +305,7 @@ MonoBehaviour:
   _shortHopForce: 20
   _fullHopForce: 30
   _doubleJumpForce: 25
+  _canDoubleJump: 1
 --- !u!1 &7770802639889903698
 GameObject:
   m_ObjectHideFlags: 0

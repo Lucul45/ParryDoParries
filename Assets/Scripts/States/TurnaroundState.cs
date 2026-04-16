@@ -2,19 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DashState : APlayerState
+public class TurnaroundState : APlayerState
 {
-    private float _dashDirection = 0;
     public override void Enter()
     {
         base.Enter();
 
         _playerController.JumpPressed += Jump;
-
-        // reset the velocity
-        _rb.velocity = Vector2.zero;
-
-        _playerController.Dash(_playerController.TempMovementInput);
+        // Do your animation
     }
 
     public override void Exit()
@@ -37,22 +32,23 @@ public class DashState : APlayerState
     {
         base.Update();
 
-        if ((_playerController.TempMovementInput.x <= -0.8f && _playerController.MovementInput.x >= 0.8f) || (_playerController.TempMovementInput.x >= 0.8f && _playerController.MovementInput.x <= -0.8f))
+        if (_playerHealth.CurrentHealth <= 0)
         {
-            _stateManager.ChangeState(_playerController.PlayerID, EPlayerState.GROUNDSTART);
+            _stateManager.ChangeState(_playerController.PlayerID, EPlayerState.DEAD);
         }
-        else if (StateFrame >= 15)
+        if (StateFrame >= _animator.GetCurrentAnimatorStateInfo(0).length)
         {
-            // if the joystick is still in the same direction
-            if ((_playerController.TempMovementInput.x <= -0.8f && _playerController.MovementInput.x <= -0.8f) || (_playerController.TempMovementInput.x >= 0.8f && _playerController.MovementInput.x >= 0.8f))
-            {
-                _stateManager.ChangeState(_playerController.PlayerID, EPlayerState.RUN);
-            }
-            else if (_playerController.MovementInput.x == 0)
+            // if we don't move, change to idle
+            if (_playerController.MovementInput.x == 0)
             {
                 _stateManager.ChangeState(_playerController.PlayerID, EPlayerState.IDLE);
             }
+            else if (_playerController.MovementInput.x != 0)
+            {
+                _stateManager.ChangeState(_playerController.PlayerID, EPlayerState.RUN);
+            }
         }
+        _animator.SetBool("IsGrounded", _playerController.IsGrounded());
     }
 
     private void Jump()

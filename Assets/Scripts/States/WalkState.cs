@@ -44,6 +44,7 @@ public class WalkState : APlayerState
             _stateManager.ChangeState(_playerController.PlayerID, EPlayerState.IDLE);
         }
         _animator.SetBool("IsGrounded", _playerController.IsGrounded());
+
         _playerController.Walk(_playerController.MovementInput);
     }
 

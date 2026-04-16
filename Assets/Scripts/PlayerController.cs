@@ -21,7 +21,7 @@ public class PlayerController : MonoBehaviour
     [Header("Movement Settings")]
     [SerializeField] private float _walkSpeed = 7f;
     [SerializeField] private float _runSpeed = 10f;
-    [SerializeField] private float _dashSpeed = 20f;
+    [SerializeField] private float _dashForce = 20f;
     [SerializeField] private float _fallMultiplier = 10f;
     private Vector2 _movementInput = Vector2.zero;
     /// <summary>
@@ -319,13 +319,8 @@ public class PlayerController : MonoBehaviour
         
     }
 
-    /// <summary>
-    /// Move the character based on a vector2 input. Also makes the character faced the right direction
-    /// </summary>
-    /// <param name="dir"></param>
-    public void Walk(Vector2 dir)
+    private void FaceTheDirection(Vector2 dir)
     {
-        _rb.velocity = new Vector2(dir.x * _walkSpeed, _rb.velocity.y);
         if (dir.x < 0)
         {
             transform.rotation = Quaternion.Euler(0, 180, 0);
@@ -336,14 +331,26 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Move the character based on a vector2 input. Also makes the character faced the right direction
+    /// </summary>
+    /// <param name="dir"></param>
+    public void Walk(Vector2 dir)
+    {
+        _rb.velocity = new Vector2(dir.x * _walkSpeed, _rb.velocity.y);
+        FaceTheDirection(dir);
+    }
+
     public void Run(Vector2 dir)
     {
         _rb.velocity = new Vector2(dir.x * _runSpeed, _rb.velocity.y);
+        FaceTheDirection(dir);
     }
 
     public void Dash(Vector2 dir)
     {
-        _rb.velocity = new Vector2(dir.x * _dashSpeed, _rb.velocity.y);
+        _rb.AddForce(new Vector2(Mathf.Sign(dir.x) * _dashForce, _rb.velocity.y), ForceMode2D.Impulse);
+        FaceTheDirection(dir);
     }
 
     public void AirMove(Vector2 dir)

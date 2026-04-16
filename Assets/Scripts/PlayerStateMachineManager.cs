@@ -14,6 +14,7 @@ public enum EPlayerState
     WALK,
     RUN,
     DASH,
+    TURNAROUND,
     JUMPSTART,
     JUMP,
     AIRBASE,
@@ -114,6 +115,7 @@ public class PlayerStateMachineManager : Singleton<PlayerStateMachineManager>
         _statesP1.Add(EPlayerState.WALK, new WalkState());
         _statesP1.Add(EPlayerState.RUN, new RunState());
         _statesP1.Add(EPlayerState.DASH, new DashState());
+        _statesP1.Add(EPlayerState.TURNAROUND, new TurnaroundState());
         _statesP1.Add(EPlayerState.JUMPSTART, new JumpStartState());
         _statesP1.Add(EPlayerState.JUMP, new JumpState());
         _statesP1.Add(EPlayerState.AIRBASE, new AirBaseState());
@@ -129,6 +131,7 @@ public class PlayerStateMachineManager : Singleton<PlayerStateMachineManager>
         _statesP2.Add(EPlayerState.WALK, new WalkState());
         _statesP2.Add(EPlayerState.RUN, new RunState());
         _statesP2.Add(EPlayerState.DASH, new DashState());
+        _statesP2.Add(EPlayerState.TURNAROUND, new TurnaroundState());
         _statesP2.Add(EPlayerState.JUMPSTART, new JumpStartState());
         _statesP2.Add(EPlayerState.JUMP, new JumpState());
         _statesP2.Add(EPlayerState.AIRBASE, new AirBaseState());
