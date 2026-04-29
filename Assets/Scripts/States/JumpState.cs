@@ -39,11 +39,8 @@ public class JumpState : APlayerState
     public override void Update()
     {
         base.Update();
-        if (_playerHealth.CurrentHealth <= 0)
-        {
-            _stateManager.ChangeState(_playerController.PlayerID, EPlayerState.DEAD);
-        }
-        else if (!_playerController.IsGrounded())
+
+        if (!_playerController.IsGrounded())
         {
             _stateManager.ChangeState(_playerController.PlayerID, EPlayerState.AIRBASE);
         }

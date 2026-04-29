@@ -16,7 +16,13 @@ public class AirMoveState : AirBaseState
 
     public override void Init(PlayerController opponent, PlayerStateMachineManager stateManager, Animator animator, SpriteRenderer spriteRenderer, Rigidbody2D rb, PlayerController playerController, PlayerHealth playerHealth)
     {
-        base.Init(opponent, stateManager, animator, spriteRenderer, rb, playerController, playerHealth);
+        _opponent = opponent;
+        _stateManager = stateManager;
+        _animator = animator;
+        _spriteRenderer = spriteRenderer;
+        _rb = rb;
+        _playerController = playerController;
+        _playerHealth = playerHealth;
     }
 
     public override void Update()

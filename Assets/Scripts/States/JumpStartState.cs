@@ -28,6 +28,7 @@ public class JumpStartState : APlayerState
     public override void Update()
     {
         base.Update();
+
         if (StateFrame >= 5)
         {
             _stateManager.ChangeState(_playerController.PlayerID, EPlayerState.JUMP);

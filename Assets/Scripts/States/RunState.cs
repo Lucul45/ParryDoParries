@@ -31,17 +31,13 @@ public class RunState : APlayerState
     {
         base.Update();
 
-        if (_playerHealth.CurrentHealth <= 0)
-        {
-            _stateManager.ChangeState(_playerController.PlayerID, EPlayerState.DEAD);
-        }
         // if we don't move, change to idle
-        else if (_playerController.MovementInput.x == 0)
+        if (_playerController.MovementInput.x == 0)
         {
             _stateManager.ChangeState(_playerController.PlayerID, EPlayerState.IDLE);
         }
-        // 
-        else if ((_rb.velocity.x < -0.1f && _playerController.MovementInput.x > 0.5f) || (_rb.velocity.x > 0.1f && _playerController.MovementInput.x < -0.5f))
+        // if the player goes in one direction and his joystick points in the opposite direction
+        else if ((!_playerController.IsFacingRight() && _playerController.MovementInput.x > 0.3f) || (_playerController.IsFacingRight() && _playerController.MovementInput.x < -0.3f))
         {
             _stateManager.ChangeState(_playerController.PlayerID, EPlayerState.TURNAROUND);
         }

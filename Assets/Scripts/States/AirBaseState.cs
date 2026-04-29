@@ -29,6 +29,7 @@ public class AirBaseState : APlayerState
     public override void Update()
     {
         base.Update();
+
         if (Mathf.Abs(_playerController.MovementInput.x) <= 0.1f)
         {
             _playerController.AirFriction();
@@ -38,11 +39,7 @@ public class AirBaseState : APlayerState
         {
             _playerController.FastFall();
         }
-        if (_playerHealth.CurrentHealth <= 0)
-        {
-            _stateManager.ChangeState(_playerController.PlayerID, EPlayerState.DEAD);
-        }
-        else if (_playerController.IsGrounded())
+        if (_playerController.IsGrounded())
         {
             _playerController.IsFastFalling = false;
             _stateManager.ChangeState(_playerController.PlayerID, EPlayerState.IDLE);

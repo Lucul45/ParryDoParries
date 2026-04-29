@@ -49,6 +49,11 @@ public abstract class APlayerState
     public virtual void Update()
     {
         StateFrame++;
+
+        if (_playerHealth.CurrentHealth <= 0)
+        {
+            _stateManager.ChangeState(_playerController.PlayerID, EPlayerState.DEAD);
+        }
     }
 
     public abstract void Exit();

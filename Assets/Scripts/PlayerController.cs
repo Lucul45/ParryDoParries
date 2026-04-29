@@ -334,14 +334,14 @@ public class PlayerController : MonoBehaviour
 
     public void ReverseRotation()
     {
-        if (transform.rotation.y == 0)
-        {
-            transform.rotation = Quaternion.Euler(0, 180, 0);
-        }
-        else if (transform.rotation.y == 180)
-        {
-            transform.rotation = Quaternion.Euler(0, 0, 0);
-        }
+        transform.Rotate(0f, 180f, 0f);
+    }
+
+    public bool IsFacingRight()
+    {
+        // On vérifie les angles Euler (les vrais degrés de l'inspecteur)
+        // On utilise Approximately car les floats ne sont jamais précis à 100%
+        return Mathf.Approximately(transform.eulerAngles.y, 0f);
     }
 
     /// <summary>

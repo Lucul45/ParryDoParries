@@ -51,12 +51,8 @@ public class HurtState : APlayerState
 
         int hitstunDuration = _opponent.CurrentAttack.AttackTotalTime - _hitAttackFrame + _opponent.CurrentAttack.AdvantageFrames;
 
-        if (_playerHealth.CurrentHealth <= 0)
-        {
-            _stateManager.ChangeState(_playerController.PlayerID, EPlayerState.DEAD);
-        }
         // If the frame on the current is greater or equal than hitstun, then change state to idle
-        else if (StateFrame >= hitstunDuration)
+        if (StateFrame >= hitstunDuration)
         {
             _stateManager.ChangeState(_playerController.PlayerID, EPlayerState.IDLE);
         }

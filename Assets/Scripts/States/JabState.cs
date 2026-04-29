@@ -45,10 +45,7 @@ public class JabState : APlayerState
     public override void Update()
     {
         base.Update();
-        if (_playerHealth.CurrentHealth <= 0)
-        {
-            _stateManager.ChangeState(_playerController.PlayerID, EPlayerState.DEAD);
-        }
+
         // Making sure the character can't move while attacking
         _playerController.Walk(Vector2.zero);
         // If the character attack is on a frame where he can combo

@@ -33,12 +33,9 @@ public class IdleState : APlayerState
     public override void Update()
     {
         base.Update();
-        if (_playerHealth.CurrentHealth <= 0)
-        {
-            _stateManager.ChangeState(_playerController.PlayerID, EPlayerState.DEAD);
-        }
+
         // If the input isn't neutral
-        else if (_playerController.MovementInput.x != 0f)
+        if (_playerController.MovementInput.x != 0f)
         {
             _stateManager.ChangeState(_playerController.PlayerID, EPlayerState.GROUNDSTART);
         }

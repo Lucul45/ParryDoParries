@@ -34,12 +34,8 @@ public class WalkState : APlayerState
     {
         base.Update();
 
-        if (_playerHealth.CurrentHealth <= 0)
-        {
-            _stateManager.ChangeState(_playerController.PlayerID, EPlayerState.DEAD);
-        }
         // if we don't move, change to idle
-        else if (_playerController.MovementInput.x == 0)
+        if (_playerController.MovementInput.x == 0)
         {
             _stateManager.ChangeState(_playerController.PlayerID, EPlayerState.IDLE);
         }

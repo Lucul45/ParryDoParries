@@ -36,10 +36,6 @@ public class TurnaroundState : APlayerState
 
         _playerController.Turnaround(_playerController.MovementInput);
 
-        if (_playerHealth.CurrentHealth <= 0)
-        {
-            _stateManager.ChangeState(_playerController.PlayerID, EPlayerState.DEAD);
-        }
         if (StateFrame >= _animator.GetCurrentAnimatorStateInfo(0).length * 60)
         {
             // if we don't move, change to idle
