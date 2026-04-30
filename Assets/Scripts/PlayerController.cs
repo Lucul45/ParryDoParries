@@ -339,9 +339,9 @@ public class PlayerController : MonoBehaviour
 
     public bool IsFacingRight()
     {
-        // On vérifie les angles Euler (les vrais degrés de l'inspecteur)
-        // On utilise Approximately car les floats ne sont jamais précis à 100%
-        return Mathf.Approximately(transform.eulerAngles.y, 0f);
+        // transform.right.x vaut 1 si le perso regarde à droite, et -1 s'il regarde à gauche.
+        // Ça marchera toujours, peu importe si l'angle est 0, 360 ou 720.
+        return transform.right.x > 0;
     }
 
     /// <summary>
@@ -362,13 +362,14 @@ public class PlayerController : MonoBehaviour
 
     public void Dash(Vector2 dir)
     {
-        _rb.AddForce(new Vector2(Mathf.Sign(dir.x) * _dashForce, _rb.velocity.y), ForceMode2D.Impulse);
+        _rb.AddForce(new Vector2(Mathf.Sign(dir.x) * _dashForce, 0f), ForceMode2D.Impulse);
         FaceTheDirection(dir);
     }
 
     public void Turnaround(Vector2 dir)
     {
-        _rb.AddForce(new Vector2(Mathf.Sign(dir.x) * _turnaroundForce, _rb.velocity.y), ForceMode2D.Force);
+        //_rb.AddForce(new Vector2(Mathf.Sign(dir.x) * _turnaroundForce, 0f), ForceMode2D.Force);
+        _rb.velocity = new Vector2(Mathf.Sign(dir.x) * _turnaroundForce, _rb.velocity.y);
     }
 
     public void AirMove(Vector2 dir)

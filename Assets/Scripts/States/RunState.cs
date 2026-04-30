@@ -9,6 +9,7 @@ public class RunState : APlayerState
         base.Enter();
 
         _playerController.JumpPressed += Jump;
+        _playerController.Run(_playerController.MovementInput);
     }
 
     public override void Exit()
@@ -40,6 +41,7 @@ public class RunState : APlayerState
         else if ((!_playerController.IsFacingRight() && _playerController.MovementInput.x > 0.3f) || (_playerController.IsFacingRight() && _playerController.MovementInput.x < -0.3f))
         {
             _stateManager.ChangeState(_playerController.PlayerID, EPlayerState.TURNAROUND);
+            return;
         }
         _animator.SetBool("IsGrounded", _playerController.IsGrounded());
 

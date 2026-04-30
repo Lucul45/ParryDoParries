@@ -34,7 +34,8 @@ public class TurnaroundState : APlayerState
     {
         base.Update();
 
-        _playerController.Turnaround(_playerController.MovementInput);
+        // if is facing right, then turnaround from right to left
+        _playerController.Turnaround(_playerController.IsFacingRight() ? new Vector2(-1, 0) : new Vector2(1, 0));
 
         if (StateFrame >= _animator.GetCurrentAnimatorStateInfo(0).length * 60)
         {

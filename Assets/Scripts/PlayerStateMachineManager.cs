@@ -175,8 +175,8 @@ public class PlayerStateMachineManager : Singleton<PlayerStateMachineManager>
         };
         CurrentStateP1.Update();
         CurrentStateP2.Update();
-        _players[0].Animator.SetFloat("Speed", _players[0].Rb.velocity.x);
-        _players[1].Animator.SetFloat("Speed", _players[1].Rb.velocity.x);
+        _players[0].Animator.SetFloat("MovementInput", _players[0].MovementInput.x);
+        _players[1].Animator.SetFloat("MovementInput", _players[1].MovementInput.x);
         // Add a new frame data to the dictionary
         FrameManager.Instance.AddActionFrameData(dataP1);
         FrameManager.Instance.AddActionFrameData(dataP2);

@@ -43,7 +43,7 @@ public class IdleState : APlayerState
         {
             _stateManager.ChangeState(_playerController.PlayerID, EPlayerState.AIRBASE);
         }
-            _animator.SetBool("IsGrounded", _playerController.IsGrounded());
+        _animator.SetBool("IsGrounded", _playerController.IsGrounded());
     }
 
     private void Attack()
