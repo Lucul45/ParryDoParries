@@ -68,6 +68,11 @@ public class PlayerController : MonoBehaviour
     private bool _canAirDash = false;
     private bool _airDashUsed = false;
 
+    [Header("Drop Through Settings")]
+    private PlatformBehavior _platformUnderFeet = null;
+    private bool _isDropping = false;
+    private Coroutine _dropCoroutine;
+
     private AttackData _currentAttack = null;
     private bool _canAttack = true;
     private int _attackIndex = 1;
@@ -144,6 +149,15 @@ public class PlayerController : MonoBehaviour
     {
         get { return _isFastFalling; }
         set { _isFastFalling = value; }
+    }
+    public bool FastFallInput
+    {
+        get { return _fastFallInput; }
+        set { _fastFallInput = value; }
+    }
+    public PlatformBehavior PlatformUnderFeet
+    {
+        get { return _platformUnderFeet; }
     }
     public float WavedashLength
     {
@@ -490,6 +504,7 @@ public class PlayerController : MonoBehaviour
     /// <returns></returns>
     public bool IsGrounded()
     {
+        if (_isDropping) return false;
         Bounds bounds = _capsule.GetComponent<BoxCollider2D>().bounds;
         RaycastHit2D hit = Physics2D.BoxCast(bounds.center, bounds.size, 0, Vector2.down, 0.2f, _groundLayer);
         // Debug
@@ -498,6 +513,28 @@ public class PlayerController : MonoBehaviour
         Debug.DrawRay(bounds.center - new Vector3(bounds.extents.x, 0), Vector2.down * (bounds.extents.y + 0.2f), rayColor);
         Debug.DrawRay(bounds.center - new Vector3(bounds.extents.x, bounds.extents.y + 0.2f), Vector2.right * (bounds.size.x), rayColor);
         return hit;
+    }
+
+    public void CheckPlatform()
+    {
+        Bounds bounds = _capsule.GetComponent<BoxCollider2D>().bounds;
+        RaycastHit2D hit = Physics2D.BoxCast(bounds.center, bounds.size, 0, Vector2.down, 0.5f, _groundLayer);
+        if (hit)
+        {
+            if (hit.transform.gameObject.tag != "OneWayPlatform")
+            {
+                _platformUnderFeet = null;
+            }
+            else
+            {
+                _platformUnderFeet = hit.transform.gameObject.GetComponent<PlatformBehavior>();
+            }
+        }
+        // Debug
+        Color rayColor = (hit.collider != null) ? Color.green : Color.red;
+        Debug.DrawRay(bounds.center + new Vector3(bounds.extents.x, 0), Vector2.down * (bounds.extents.y + 0.5f), rayColor);
+        Debug.DrawRay(bounds.center - new Vector3(bounds.extents.x, 0), Vector2.down * (bounds.extents.y + 0.5f), rayColor);
+        Debug.DrawRay(bounds.center - new Vector3(bounds.extents.x, bounds.extents.y + 0.5f), Vector2.right * (bounds.size.x), rayColor);
     }
 
     public bool IsFullHopping()
@@ -561,5 +598,50 @@ public class PlayerController : MonoBehaviour
 
         ReverseRotation();
         Debug.Log("BOUNCE DONE !");
+    }
+
+    public void DropThroughPlatform()
+    {
+        if (_platformUnderFeet != null && !_isDropping)
+        {
+            if (_dropCoroutine != null) StopCoroutine(_dropCoroutine);
+
+            // We launch the coroutine with the platform collider
+            Collider2D platformCollider = _platformUnderFeet.GetComponent<Collider2D>();
+            _dropCoroutine = StartCoroutine(DisableCollisionCoroutine(platformCollider));
+        }
+    }
+
+    private IEnumerator DisableCollisionCoroutine(Collider2D platformCollider)
+    {
+        _isDropping = true;
+        Collider2D playerCollider = _capsule.GetComponent<BoxCollider2D>();
+
+        // Deactivation of the collider between the player and the platform
+        Physics2D.IgnoreCollision(playerCollider, platformCollider, true);
+
+        // We wait a few time to let the player pass through ( value can be changed )
+        yield return new WaitForSeconds(0.25f);
+
+        // Reactivation of the collision
+        Physics2D.IgnoreCollision(playerCollider, platformCollider, false);
+        _isDropping = false;
+    }
+
+    public void CancelDrop()
+    {
+        if (_isDropping)
+        {
+            if (_dropCoroutine != null) StopCoroutine(_dropCoroutine);
+            _isDropping = false;
+
+            // On force la réactivation de la collision avec la plateforme
+            if (_platformUnderFeet != null)
+            {
+                Collider2D playerCollider = _capsule.GetComponent<BoxCollider2D>();
+                Collider2D platformCollider = _platformUnderFeet.GetComponent<Collider2D>();
+                Physics2D.IgnoreCollision(playerCollider, platformCollider, false);
+            }
+        }
     }
 }

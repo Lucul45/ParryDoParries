@@ -53,6 +53,9 @@ public class WaveDashState : APlayerState
     public override void Update()
     {
         base.Update();
+        // 1. ON SECURISE L'INPUT AVANT LE BASE.UPDATE()
+        // Cela empêche APlayerState de lancer la coroutine DropThroughPlatform par erreur
+        _playerController.FastFallInput = false;
 
         // On applique la friction de glissade à chaque frame
         _playerController.WaveDashFriction();

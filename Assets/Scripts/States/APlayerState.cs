@@ -50,9 +50,10 @@ public abstract class APlayerState
     {
         StateFrame++;
 
-        if (_playerHealth.CurrentHealth <= 0)
+        _playerController.CheckPlatform();
+        if (_playerController.FastFallInput && _playerController.PlatformUnderFeet != null)
         {
-            _stateManager.ChangeState(_playerController.PlayerID, EPlayerState.DEAD);
+            _playerController.DropThroughPlatform();
         }
     }
 

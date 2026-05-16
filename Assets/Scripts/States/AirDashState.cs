@@ -13,6 +13,9 @@ public class AirDashState : APlayerState
         _playerController.IsFastFalling = false;
         _playerController.AirDashUsed = true;
 
+        // SECURITE : On annule toute chute à travers une plateforme en cours
+        _playerController.CancelDrop();
+
         // COUPER LA GRAVITÉ : On stocke la gravité de base et on la met à 0
         // pour que l'airdash soit une ligne droite parfaite.
         _originalGravity = _rb.gravityScale;
@@ -41,6 +44,10 @@ public class AirDashState : APlayerState
     public override void Update()
     {
         base.Update();
+
+        // 1. ON SECURISE L'INPUT AVANT LE BASE.UPDATE()
+        // Cela empêche APlayerState de lancer la coroutine DropThroughPlatform par erreur
+        _playerController.FastFallInput = false;
 
         // 1. LA TRANSITION WAVEDASH (Vérifiée à CHAQUE frame)
         if (_playerController.IsGrounded() && _rb.velocity.y < -0.1f)

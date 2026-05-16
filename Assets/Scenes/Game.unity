@@ -3763,7 +3763,7 @@ GameObject:
   - component: {fileID: 1416736318}
   m_Layer: 13
   m_Name: OneWayPlatform
-  m_TagString: Untagged
+  m_TagString: OneWayPlatform
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -7299,7 +7299,7 @@ PrefabInstance:
       objectReference: {fileID: 1452043398}
     - target: {fileID: 1548162989360856272, guid: a1450121f5fafe24c9c6812f2900ade1, type: 3}
       propertyPath: m_DefaultControlScheme
-      value: Controller
+      value: Keyboard
       objectReference: {fileID: 0}
     - target: {fileID: 1548162989360856272, guid: a1450121f5fafe24c9c6812f2900ade1, type: 3}
       propertyPath: m_ActionEvents.Array.size
