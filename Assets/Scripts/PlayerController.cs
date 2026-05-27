@@ -30,6 +30,10 @@ public class PlayerController : MonoBehaviour
     /// </summary>
     private Vector2 _tempMovementInput = Vector2.zero;
 
+    [Header("Ground Physics")]
+    [SerializeField] private float _groundAcceleration = 50f;
+    [SerializeField] private float _groundFriction = 40f;
+
     [Header("Air Physics (Smash Style)")]
     [SerializeField] private float _playerAirForce = 30f; // acceleration in the air
     [SerializeField] private float _maxAirSpeed = 8f;     // max horizontal air speed
@@ -407,13 +411,27 @@ public class PlayerController : MonoBehaviour
     /// <param name="dir"></param>
     public void Walk(Vector2 dir)
     {
-        _rb.velocity = new Vector2(dir.x * _walkSpeed, _rb.velocity.y);
+        // Calcule la vitesse désirée
+        float targetSpeed = dir.x * _walkSpeed;
+
+        // Détermine si le joueur essaie d'avancer ou de s'arrêter (pour utiliser l'accélération ou la friction)
+        float accelRate = (Mathf.Abs(targetSpeed) > 0.01f) ? _groundAcceleration : _groundFriction;
+
+        // Rapproche fluidement la vélocité actuelle de la cible
+        float newX = Mathf.MoveTowards(_rb.velocity.x, targetSpeed, accelRate * Time.fixedDeltaTime);
+        _rb.velocity = new Vector2(newX, _rb.velocity.y);
+
         FaceTheDirection(dir);
     }
 
     public void Run(Vector2 dir)
     {
-        _rb.velocity = new Vector2(dir.x * _runSpeed, _rb.velocity.y);
+        float targetSpeed = dir.x * _runSpeed;
+        float accelRate = (Mathf.Abs(targetSpeed) > 0.01f) ? _groundAcceleration : _groundFriction;
+
+        float newX = Mathf.MoveTowards(_rb.velocity.x, targetSpeed, accelRate * Time.fixedDeltaTime);
+        _rb.velocity = new Vector2(newX, _rb.velocity.y);
+
         FaceTheDirection(dir);
     }
 
@@ -446,14 +464,14 @@ public class PlayerController : MonoBehaviour
     /// </summary>
     public void AirFriction()
     {
-        float frictionX = Mathf.MoveTowards(_rb.velocity.x, 0, _airFriction * Time.deltaTime);
+        float frictionX = Mathf.MoveTowards(_rb.velocity.x, 0, _airFriction * Time.fixedDeltaTime);
         _rb.velocity = new Vector2(frictionX, _rb.velocity.y);
     }
 
     public void WaveDashFriction()
     {
         // we gradually bring back the x speed to 0
-        float frictionX = Mathf.MoveTowards(_rb.velocity.x, 0, _wavedashFriction * Time.deltaTime);
+        float frictionX = Mathf.MoveTowards(_rb.velocity.x, 0, _wavedashFriction * Time.fixedDeltaTime);
         _rb.velocity = new Vector2(frictionX, _rb.velocity.y);
     }
 

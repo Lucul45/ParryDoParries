@@ -303,7 +303,8 @@ MonoBehaviour:
   _dashForce: 15
   _turnaroundForce: 7
   _fallMultiplier: 40
-  _airDashForce: 25
+  _groundAcceleration: 50
+  _groundFriction: 40
   _playerAirForce: 50
   _maxAirSpeed: 10
   _airFriction: 5
@@ -321,6 +322,8 @@ MonoBehaviour:
   _doubleJumpForce: 25
   _canDoubleJump: 1
   _wavedashFriction: 15
+  _wavedashLength: 18
+  _airDashForce: 25
 --- !u!1 &7770802639889903698
 GameObject:
   m_ObjectHideFlags: 0
